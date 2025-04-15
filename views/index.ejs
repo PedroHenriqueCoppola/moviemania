@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel="stylesheet" href="/stylesheets/style.css" />
+    </head>
+    <body>
+        <div class="app">
+            <div class="title">
+                <img src="/images/logo.png" alt="logo">
+                <h1><%= title %></h1>
+            </div>
+    
+            <div class="login">
+                <h2>Entrar</h2>
+    
+                <form action="/login" method="POST">
+                    <div class="inputLayout">
+                        <div class="inputContainer">
+                            <div class="emailInput">
+                                <input type="text" required id="email" name="email" autocomplete="off">
+                                <label class="labelline" for="email">Email</label>
+                            </div>
+    
+                            <div class="passwordInput">
+                                <input type="text" required id="password" name="email" autocomplete="off">
+                                <label class="labelline" for="password">Senha</label>
+                            </div>
+                        </div>
+    
+                        <button class="submitButton" type="submit">Entrar</button>
+                    </div>
+                </form>
+                
+                <p class="forgotPassword">Esqueceu sua senha?</p>
+    
+                <p>Primeira vez aqui? <a href="/emaillogon">Assine agora</a>.</p>
+            </div>
+        </div>
+    </body>
+</html>
