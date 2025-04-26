@@ -23,6 +23,8 @@
     --white: hsla(0, 0%, 100%);
     --gray-bg: hsl(0, 4%, 9%);
     --gray-lighter: hsl(0, 1.90%, 58.00%);
+    --gray-button: hsl(0, 12.80%, 92.40%);
+    --gray-button-darker: hsl(0, 5.60%, 85.90%);;
     --input-border: hsla(0, 0%, 100%, 0.20);
     --red: hsl(0, 58%, 52%);
     --red-lighter: hsl(0, 63%, 58%);
@@ -108,7 +110,7 @@ header {
     font-weight: bold;
 }
 
-.passwordLogon {
+.usersLogon {
     display: flex;
     flex-direction: column;
 }
@@ -123,14 +125,25 @@ header {
 .inputContainer {
     display: flex;
     flex-direction: column;
+    gap: 2rem;
+}
+
+.newUserInput {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 1.5rem;
 }
 
-.newUsernameInput,
-.newPhoneInput,
-.newPasswordInput {
+.newUserInput > img {
+    width: 3.5rem;
+    height: 3.5rem;
+}
+
+.inputContent {
     position: relative;
     height: 4.3rem;
+    width: 100%;
     line-height: 4.3rem;
 }
 
@@ -168,12 +181,8 @@ input:valid {
     border: 2px solid var(--red);
 }
 
-.newUsernameInput > input:focus + .labelline,
-.newUsernameInput > input:valid + .labelline,
-.newPhoneInput > input:focus + .labelline,
-.newPhoneInput > input:valid + .labelline,
-.newPasswordInput > input:focus + .labelline,
-.newPasswordInput > input:valid + .labelline {
+.inputContent > input:focus + .labelline,
+.inputContent > input:valid + .labelline {
     color: var(--red);
     font-weight: 500;
     height: 3rem;
@@ -181,6 +190,24 @@ input:valid {
     padding: 0 1.2rem;
     transform: translate(-1.5rem, -1.4rem) scale(0.88);
     z-index: 9;
+}
+
+.cancelButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4.3rem;
+    border-radius: 8px;
+    border: 1px solid var(--black);
+    background-color: var(--gray-button);
+    color: var(--black);
+    font-weight: 600;
+    margin-top: 1rem;
+}
+
+.cancelButton:hover {
+    background-color: var(--gray-button-darker);
+    cursor: pointer;
 }
 
 .submitButton {
