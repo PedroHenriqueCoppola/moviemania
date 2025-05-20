@@ -37,7 +37,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20rem;
+    margin-top: 15rem;
     gap: 6rem;
 }
 
@@ -169,5 +169,10 @@ p {
 
 a {
     text-decoration: underline;
-    color: var(--white);
+    font-weight: 600;
+    color: var(--red);
+}
+
+a:hover {
+    color: var(--red-lighter);
 }

@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 /* GET perfis */
 router.get('/users', async function(req, res, next) {
     // garante o acesso a usuarios registrados
-    // verificarLogin(res);
+    verificarLogin(res);
 
     // carregar os perfis relacionados ao usuario logado
     // const registroPerfis = await global.banco.buscarPerfis(global.usucodigo);
@@ -69,5 +69,16 @@ router.post('/passwordlogon', async function(req, res, next){
 router.post('/userslogon', async function(req, res, next){
     res.redirect('/users');
 });
+
+
+// Funções de segurança
+
+// Verifica se tem usuario logado
+function verificarLogin(res) {
+    if (!global.email_usuario || global.email_usuario == "") {
+        res.redirect('/');
+    }
+}
+
 
 module.exports = router;
