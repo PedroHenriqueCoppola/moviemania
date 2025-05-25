@@ -41,7 +41,7 @@ CREATE TABLE movie_gender (
     id_movie INT,
     id_gender INT,
     FOREIGN KEY (id_movie) REFERENCES movies(movieid),
-    FOREIGN KEY (id_gender) REFERENCES generos(genderid)
+    FOREIGN KEY (id_gender) REFERENCES genres(genderid)
 );
 
 CREATE TABLE lists (
