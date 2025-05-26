@@ -53,7 +53,7 @@ router.post('/login', async function(req, res, next){
     const user = await global.banco.verifyUserExistence(email, password);
 
     // Se ele existe no banco
-    if(user.userid) {
+    if(user.userid && user.fgadmin == 0) {
         global.userid = user.userid;
         global.useremail = user.useremail;
 
