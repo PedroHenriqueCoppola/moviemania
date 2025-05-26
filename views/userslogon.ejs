@@ -1,83 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%= title %></title>
 
-    <link rel="stylesheet" href="/stylesheets/userslogon.css" />
-</head>
-<body>
-    <header>
-        <div class="title">
-            <img src="/images/logo.png" alt="logo">
-            <h1><%= title %></h1>
-        </div>
-
-        <div class="line"></div>
-    </header>
-
-    <div class="app">
-        <div class="infos">
-            <h4>Passo 2 de 3</h4>
-    
-            <div class="finishTitle">
-                <h2>Termine configurar sua conta</h2>
+        <link rel="stylesheet" href="/stylesheets/userslogon.css" />
+    </head>
+    <body>
+        <header>
+            <div class="title">
+                <img src="/images/logo.png" alt="logo">
+                <h1><%= title %></h1>
             </div>
-    
-            <img class="stepper" src="/images/stepper3.png" alt="">
-    
-            <div class="emailLogged">
-                <p>
-                    Quais perfis você deseja cadastrar? Insira os quatro.
-                </p>
-            </div>
-        </div>
 
-        <div class="usersLogon">
-            <form action="/userslogon" method="POST">
-                <div class="inputLayout">
-                    <div class="inputContainer">
-                        <div class="newUserInput">
-                            <img src="/images/user.png" alt="usuario">
-                            <div class="inputContent">
-                                <input type="text" required id="newUserOne" name="newUserOne" autocomplete="off">
-                                <label class="labelline" for="newUserOne">Nome do perfil</label>
-                            </div>
-                        </div>
+            <div class="line"></div>
+        </header>
 
-                        <div class="newUserInput">
-                            <img src="/images/user.png" alt="usuario">
-                            <div class="inputContent">
-                                <input type="text" required id="newUserTwo" name="newUserTwo" autocomplete="off">
-                                <label class="labelline" for="newUserTwo">Nome do perfil</label>
-                            </div>
-                        </div>
-
-                        <div class="newUserInput">
-                            <img src="/images/user.png" alt="usuario">
-                            <div class="inputContent">
-                                <input type="text" required id="newUserThree" name="newUserThree" autocomplete="off">
-                                <label class="labelline" for="newUserThree">Nome do perfil</label>
-                            </div>
-                        </div>
-
-                        <div class="newUserInput">
-                            <img src="/images/user.png" alt="usuario">
-                            <div class="inputContent">
-                                <input type="text" required id="newUserFour" name="newUserFour" autocomplete="off">
-                                <label class="labelline" for="newUserFour">Nome do perfil</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class="cancelButton" type="button" onclick="redirectToPasswordPage()">Voltar</button>
+        <div class="app">
+            <div class="infos">
+                <h4>Passo 2 de 3</h4>
         
-                    <button class="submitButton" type="submit">Finalizar</button>
+                <div class="finishTitle">
+                    <h2>Termine configurar sua conta</h2>
                 </div>
-            </form>
+        
+                <img class="stepper" src="/images/stepper3.png" alt="">
+        
+                <div class="emailLogged">
+                    <p>
+                        Quais perfis você deseja cadastrar? Insira os quatro.
+                    </p>
+                </div>
+            </div>
+
+            <div class="usersLogon">
+                <form action="/userslogon" method="POST">
+                    <div class="inputLayout">
+                        <div class="inputContainer">
+                            <div class="newUserInput">
+                                <img src="/images/user.png" alt="usuario">
+                                <div class="inputContent">
+                                    <input type="text" required id="newUserOne" name="newUserOne" autocomplete="off">
+                                    <label class="labelline" for="newUserOne">Nome do perfil</label>
+                                </div>
+                            </div>
+
+                            <div class="newUserInput">
+                                <img src="/images/user.png" alt="usuario">
+                                <div class="inputContent">
+                                    <input type="text" required id="newUserTwo" name="newUserTwo" autocomplete="off">
+                                    <label class="labelline" for="newUserTwo">Nome do perfil</label>
+                                </div>
+                            </div>
+
+                            <div class="newUserInput">
+                                <img src="/images/user.png" alt="usuario">
+                                <div class="inputContent">
+                                    <input type="text" required id="newUserThree" name="newUserThree" autocomplete="off">
+                                    <label class="labelline" for="newUserThree">Nome do perfil</label>
+                                </div>
+                            </div>
+
+                            <div class="newUserInput">
+                                <img src="/images/user.png" alt="usuario">
+                                <div class="inputContent">
+                                    <input type="text" required id="newUserFour" name="newUserFour" autocomplete="off">
+                                    <label class="labelline" for="newUserFour">Nome do perfil</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="cancelButton" type="button" onclick="redirectToPasswordPage()">Voltar</button>
+            
+                        <button class="submitButton" type="submit">Finalizar</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-    <script src="/javascripts/userslogon.js"></script>
-</body>
+        <script src="/javascripts/userslogon.js"></script>
+    </body>
 </html>

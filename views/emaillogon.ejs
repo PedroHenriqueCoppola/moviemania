@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%= title %></title>
 
-    <link rel="stylesheet" href="/stylesheets/email.css" />
-</head>
-<body>
-    <div class="app">
-        <div class="title">
-            <img src="/images/logo.png" alt="logo">
-            <h1><%= title %></h1>
-        </div>
+        <link rel="stylesheet" href="/stylesheets/email.css" />
+    </head>
+    <body>
+        <div class="app">
+            <div class="title">
+                <img src="/images/logo.png" alt="logo">
+                <h1><%= title %></h1>
+            </div>
+            
+            <div class="logon">
+                <h2>Filmes, séries, e muito mais, sem limites.</h2>
+            
+                <p>A partir de R$ 20,00. Cancele quando quiser.</p>
         
-        <div class="logon">
-            <h2>Filmes, séries, e muito mais, sem limites.</h2>
-        
-            <p>A partir de R$ 20,00. Cancele quando quiser.</p>
-    
-            <p>Informe seu e-mail para criar sua assinatura.</p>
+                <p>Informe seu e-mail para criar sua assinatura.</p>
 
-            <form action="/emaillogon" method="POST">
-                <div class="inputLayout">
-                    <div class="inputContainer">
-                        <div class="newEmailInput">
-                            <input type="text" required id="newEmail" name="newEmail" autocomplete="off">
-                            <label class="labelline" for="newEmail">Insira seu email</label>
+                <form action="/emaillogon" method="POST">
+                    <div class="inputLayout">
+                        <div class="inputContainer">
+                            <div class="newEmailInput">
+                                <input type="text" required id="newEmail" name="newEmail" autocomplete="off">
+                                <label class="labelline" for="newEmail">Insira seu email</label>
+                            </div>
                         </div>
+            
+                        <button class="submitButton" type="submit">
+                            Vamos lá
+                            <img src="/images/drop.png" alt="drop">
+                        </button>
                     </div>
-        
-                    <button class="submitButton" type="submit">
-                        Vamos lá
-                        <img src="/images/drop.png" alt="drop">
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>
