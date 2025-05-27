@@ -27,6 +27,8 @@ async function connDB()
     return global.conexao;
 }
 
+/* INSERT - QUERIES */
+
 async function insertNewEmail(email) {
     // conecta com o banco de dados
     const conn = await connDB();
@@ -37,6 +39,34 @@ async function insertNewEmail(email) {
     // executa o SQL
     await conn.query(sql, [email]);
 }
+
+async function insertUserInformations(email, name, password, phone) {
+    const conn = await connDB();
+
+    const sql = `update users set username=?, userpassword=?, userphone=? where useremail=?;`;
+
+    await conn.query(sql, [name, password, phone, email]);
+}
+
+async function insertProfiles(profilename, userid) {
+    const conn = await connDB();
+
+    const sql = `insert into profiles (profilename, id_user) values (?, ?);`;
+
+    await conn.query(sql, [profilename, userid]);
+}
+
+/* DELETE - QUERIES */
+
+async function cleanEmptyEmails() {
+    const conn = await connDB();
+
+    const sql = `delete from users where username = '' and userpassword = '' and userphone = '';`;
+
+    await conn.query(sql);
+}
+
+/* SELECT - QUERIES */
 
 async function searchUserByEmail(email) {
     const conn = await connDB();
@@ -56,27 +86,8 @@ async function searchUserByEmail(email) {
     }
 }
 
-async function insertUserInformations(email, name, password, phone) {
-    const conn = await connDB();
-
-    const sql = `update users set username=?, userpassword=?, userphone=? where useremail=?;`;
-
-    await conn.query(sql, [name, password, phone, email]);
-}
-
-async function insertProfiles(profilename, userid) {
-    const conn = await connDB();
-
-    const sql = `insert into profiles (profilename, id_user) values (?, ?);`;
-
-    await conn.query(sql, [profilename, userid]);
-}
-
 async function verifyUserExistence(email, password) {
     const conn = await connDB();
-
-    console.log("email: "+email);
-    console.log("password: "+password);
 
     const sql = "select * from users where useremail=? and userpassword=?;";
 
@@ -92,10 +103,22 @@ async function verifyUserExistence(email, password) {
     }
 }
 
+async function searchGenres() {
+    const conn = await connDB();
+    
+    const sql = "select * from genres order by gendername;";
+
+    const [genres] = await conn.query(sql);
+
+    return genres;
+}
+
 module.exports = {
     insertNewEmail,
-    searchUserByEmail,
     insertUserInformations,
     insertProfiles,
-    verifyUserExistence
+    cleanEmptyEmails,
+    searchUserByEmail,
+    verifyUserExistence,
+    searchGenres
 }

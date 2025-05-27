@@ -34,10 +34,13 @@ router.get('/userslogon', function(req, res, next) {
 /* GET perfis */
 router.get('/users', async function(req, res, next) {
     // garante o acesso a usuarios registrados
-    verificarLogin(res);
+    verifyLogin(res);
 
     // carregar os perfis relacionados ao usuario logado
     // const registroPerfis = await global.banco.buscarPerfis(global.usucodigo); -- FALTA FAZER
+
+    // Deleta os registros que ficaram em branco caso houve alguma falha durante o logon
+    await global.banco.cleanEmptyEmails();
 
     // carrega a pagina de perfis para a escolha do perfil que vai assistir
     res.render('users', {title : 'Escolha um perfil'});
@@ -108,10 +111,16 @@ router.post('/userslogon', async function(req, res, next){
 
     if (userOne && userTwo && userThree && userFour) {
         try {
+            // Insere os perfis
             await global.banco.insertProfiles(userOne, global.userid);
             await global.banco.insertProfiles(userTwo, global.userid);
             await global.banco.insertProfiles(userThree, global.userid);
             await global.banco.insertProfiles(userFour, global.userid);
+            
+            // Deleta os registros que ficaram em branco no caso do usuário voltar e redigitar o email no processo
+            await global.banco.cleanEmptyEmails();
+
+            // Redireciona para a página de usuários
             res.redirect('/users');
         } catch (err) {
             res.status(500).send('Erro interno');
@@ -121,8 +130,8 @@ router.post('/userslogon', async function(req, res, next){
 
 // Funções de segurança
 
-// Verifica se tem usuario logado
-function verificarLogin(res) {
+// Verifica o usuário está logado
+function verifyLogin(res) {
     if (!global.useremail || global.useremail == "") {
         res.redirect('/');
     }
