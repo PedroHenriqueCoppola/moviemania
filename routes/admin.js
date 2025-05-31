@@ -8,13 +8,24 @@ router.get('/', function(req, res) {
 
 router.get('/genres', async function(req, res) {
     verifyLogin(res);
+
     const genres = await global.banco.searchGenres();
+
+    const genresWithCount = await Promise.all(
+        genres.map(async (gender) => {
+            const amount = await global.banco.getAmountOfMoviesByGender(gender.genderid);
+
+            return {
+                genderId: gender.genderid,
+                genderName: gender.gendername,
+                moviesAmount: amount
+            };
+        })
+    );
 
     res.render('admin/genres', {
         // admNome: global.admNome,
-        genres,
-        // mensagem: null,
-        // sucesso: false
+        genresWithCount
     });
 });
 

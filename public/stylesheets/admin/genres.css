@@ -20,8 +20,9 @@
 
     --black: hsl(0, 0%, 0%);
     --white: hsla(0, 0%, 100%);
+    --soft-white: hsla(0, 0%, 100%, 0.5);
     --gray-bg: hsl(0, 4%, 9%);
-    --input-border: hsla(0, 0%, 100%, 0.20);
+    --input-border: hsla(0, 0.00%, 100.00%, 0.20);
     --red: hsl(0, 58%, 52%);
     --red-lighter: hsl(0, 63%, 58%);
 }
@@ -34,7 +35,21 @@ body {
 }
 
 .app {
+    margin-top: 8rem;
+}
 
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+}
+
+.headerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
 }
 
 .headerContent > .title {
@@ -56,4 +71,152 @@ body {
 .headerContent > h2 {
     color: var(--white);
     font-size: 2.8rem;
+}
+
+.headerMenus {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 50rem;
+}
+
+.headerMenus > .menus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.headerMenus > .menus > a {
+    text-decoration: none;
+    color: var(--soft-white);
+    font-weight: 400;
+    font-size: 1.55rem;
+    transition: color linear .2s;
+}
+
+.headerMenus > .menus > a:hover {
+    color: var(--white);
+}
+
+.headerMenus > .menus > .picked {
+    font-weight: bold;
+    color: var(--white);
+    transition: color linear .2s;
+}
+
+.headerMenus > .line {
+    border: 1px solid var(--input-border);
+}
+
+.genres {
+    border: 2px solid var(--input-border);
+    border-radius: 1rem;
+    margin-top: 6rem;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    width: 60rem;
+}
+
+.genres > h2 {
+    color: var(--white);
+    font-size: 2.5rem;
+}
+
+.genresTableDiv {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#genresTable {
+    border-collapse: collapse;
+}
+
+#genresTable > thead > tr > th {
+    color: var(--white);
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: .7rem;
+}
+
+.genderId {
+    border-top: none;
+    border-left: none;
+    width: 12%;
+}
+
+.genderName {
+    border-top: none;
+    border-left: 1px solid var(--soft-white);
+    border-right: 1px solid var(--soft-white);
+    text-align: start;
+}
+
+.moviesAmount {
+    border-top: none;
+    border-left: 1px solid var(--soft-white);
+    border-right: 1px solid var(--soft-white);
+    width: 15%;
+}
+
+.action {
+    border-top: none;
+    border-right: none;
+    width: 20%;
+}
+
+.action {
+    border-right: none;
+}
+
+td {
+    border: 1px solid var(--soft-white);
+    padding: 1rem;
+    color: var(--white);
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.firstTd {
+    border-left: none;
+    text-align: center;
+}
+
+.secondTd {
+    text-align: start;
+}
+
+.thirdTd {
+    text-align: center;
+}
+
+.fourthTd {
+    text-align: center;
+    border-right: none;
+}
+
+.fourthTd > .actionButtons {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.fourthTd > .actionButtons > button {
+    background: none;
+    border: none;
+    transition: opacity linear .2s;
+}
+
+.fourthTd > .actionButtons > button:hover {
+    cursor: pointer;
+    opacity: .7;
+}
+
+.editButton, .removeButton {
+    width: 2.1rem;
+    height: 2.1rem;
 }

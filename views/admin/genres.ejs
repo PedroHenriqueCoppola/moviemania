@@ -31,35 +31,37 @@
                 </div>
             </div>
 
-            <!-- <div class="genres">
+            <div class="genres">
                 <h2>Gêneros</h2>
 
                 <div class="genresTableDiv">
                     <table id="genresTable">
                         <thead>
                             <tr>
-                                <th className="genderId">Id</th>
-                                <th className="genderName">Nome</th>
-                                <th className="moviesAmount">Filmes</th>
-                                <th className="action">Ações</th>
+                                <th class="genderId">Id</th>
+                                <th class="genderName">Nome</th>
+                                <th class="moviesAmount">Filmes</th>
+                                <th class="action">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <% genres.forEach(gender => { %>
+                            <% genresWithCount.forEach(gender => { %>
                                 <tr>
-                                    <td class="teste1"><%= gender.ID %></td> // trocar o .id
-                                    <td class="teste2"><%= gender.NOME %></td> // trocar o .nome
-                                    <td class="teste3"><%= gender.QUANTIDADE-FILMES %></td> // trocar .quantidade-filmes
-                                    <td class="teste4">
-                                        <button>Atualizar</button>
-                                        <button>Excluir</button>
+                                    <td class="firstTd"><%= gender.genderId %></td>
+                                    <td class="secondTd"><%= gender.genderName %></td>
+                                    <td class="thirdTd"><%= gender.moviesAmount %></td>
+                                    <td class="fourthTd">
+                                        <div class="actionButtons">
+                                            <button><img src="/images/edit.png" alt="Editar" class="editButton"></button>
+                                            <button><img src="/images/delete.png" alt="Excluir" class="removeButton"></button>
+                                        </div>
                                     </td>
                                 </tr>
                             <% }) %>
-                        </tbody> 
+                        </tbody>
                     </table>
                 </div>
-            </div> -->
+            </div>
         </div>
     </body>
 </html>

@@ -113,6 +113,16 @@ async function searchGenres() {
     return genres;
 }
 
+async function getAmountOfMoviesByGender(gender) {
+    const conn = await connDB();
+
+    const sql = "select count(*) as total from movie_gender where id_gender=?";
+
+    const [rows] = await conn.query(sql, [gender]);
+
+    return rows[0].total;
+}
+
 module.exports = {
     insertNewEmail,
     insertUserInformations,
@@ -120,5 +130,6 @@ module.exports = {
     cleanEmptyEmails,
     searchUserByEmail,
     verifyUserExistence,
-    searchGenres
+    searchGenres,
+    getAmountOfMoviesByGender
 }
