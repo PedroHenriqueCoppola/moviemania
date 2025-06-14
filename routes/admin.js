@@ -1,13 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-// GET login admin
+// =================
+// ROTAS GET 
+// =================
+
+/* GET home */
 router.get('/', function(req, res) {
+    if (global.isAdminLoggedIn) {
+        return res.redirect('/admin/genres');
+    }
     res.render('admin/login', { title: 'MovieMania - Admin' });
 });
 
-router.get('/genres', async function(req, res) {
-    verifyLogin(res);
+/* GET genres */
+router.get('/genres', verifyLogin, async function(req, res) {
+    // Verificação na função de get. Só roda se o admin estiver logado
 
     const genres = await global.banco.searchGenres();
 
@@ -24,21 +32,33 @@ router.get('/genres', async function(req, res) {
     );
 
     res.render('admin/genres', {
-        // admNome: global.admNome,
+        admNome: global.adminName,
         genresWithCount
     });
 });
 
-// POST login admin
+// rota a ser criada: logout do admin
+// router.get('/logout', function(req, res){
+//     global.isAdminLoggedIn = false;
+//     global.adminName = null;
+//     res.redirect('/admin');
+// });
+
+// =================
+// ROTAS POST 
+// =================
+
+/* POST login admin */
 router.post('/loginadmin', async function(req, res) {
     const email = req.body.email;
     const password = req.body.password;
 
     const admin = await global.banco.verifyUserExistence(email, password);
 
-    if (admin.userid && admin.fgadmin == 1) {
-        global.userid = admin.userid;
-        global.useremail = admin.useremail;
+    if (admin && admin.fgadmin == 1) {
+        // Cria uma flag global pra verificação do login
+        global.isAdminLoggedIn = true;
+        global.adminName = admin.username;
 
         res.redirect('/admin/genres');
     } else {
@@ -46,11 +66,15 @@ router.post('/loginadmin', async function(req, res) {
     }
 });
 
-// Funções de segurança
+// =========================================
+// FUNÇÕES DE SEGURANÇA (MIDDLEWARE)
+// =========================================
 
-// Verifica o usuário está logado
-function verifyLogin(res) {
-    if (!global.useremail || global.useremail == "") {
+// Verifica o usuário está logado de acordo com a flag global
+function verifyLogin(req, res, next) {
+    if (global.isAdminLoggedIn) {
+        next();
+    } else {
         res.redirect('/admin');
     }
 }
