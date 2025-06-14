@@ -1,113 +1,88 @@
 const mysql = require('mysql2/promise');
 
-async function connDB()
-{
-    // verifica se já existe uma conexao valida com o BD
-    // armazenada no objeto GLOBAL
-    if (global.conexao && global.conexao.state !== 'disconnected')
-    {
+async function connDB() {
+    if (global.conexao && global.conexao.state !== 'disconnected') {
         return global.conexao;
     }
 
-    // caso não exista uma conexao, cria ela
-    const connection = mysql.createConnection(
-        {
-            host: 'localhost',
-            port: 3306,
-            user: 'root',
-            password: '',
-            database: 'moviemania'
-        }
-    );
+    const connection = mysql.createConnection({
+        host: 'localhost',
+        port: 3306,
+        user: 'root',
+        password: '',
+        database: 'moviemania'
+    });
 
-    // guarda a nova conexao no objeto GLOBAL
     global.conexao = connection;
-    
-    // retorna a conexao criada
     return global.conexao;
 }
 
-/* INSERT - QUERIES */
-
-async function insertNewEmail(email) {
-    // conecta com o banco de dados
-    const conn = await connDB();
-
-    // prepara o comando SQL
-    const sql = `insert into users (username, useremail, userpassword, userphone, fgadmin) values ("", ?, "", "", false);`;
-
-    // executa o SQL
-    await conn.query(sql, [email]);
-}
+// ===========================
+// INSERT - QUERIES 
+// ===========================
 
 async function insertUserInformations(email, name, password, phone) {
     const conn = await connDB();
+    
+    // Este comando SQL tenta inserir um novo usuário
+    // Se ele encontrar um e-mail duplicado (por causa da chave UNIQUE),
+    // ele executa a parte do ON DUPLICATE KEY UPDATE, atualizando os dados existentes.
+    const sql = `
+        INSERT INTO users (useremail, username, userpassword, userphone, fgadmin) 
+        VALUES (?, ?, ?, ?, false)
+        ON DUPLICATE KEY UPDATE 
+            username=VALUES(username), 
+            userpassword=VALUES(userpassword), 
+            userphone=VALUES(userphone);
+    `;
+    
+    await conn.query(sql, [email, name, password, phone]);
 
-    const sql = `update users set username=?, userpassword=?, userphone=? where useremail=?;`;
-
-    await conn.query(sql, [name, password, phone, email]);
+    // Busca o usuário para ter certeza que está com os dados mais recentes para retornar
+    const user = await searchUserByEmail(email);
+    return user;
 }
 
 async function insertProfiles(profilename, userid) {
     const conn = await connDB();
-
-    const sql = `insert into profiles (profilename, id_user) values (?, ?);`;
-
+    const sql = 'INSERT INTO profiles (profilename, id_user) VALUES (?, ?);';
     await conn.query(sql, [profilename, userid]);
 }
 
-/* DELETE - QUERIES */
+// ===========================
+// SELECT - QUERIES 
+// ===========================
 
-async function cleanEmptyEmails() {
+async function searchUserById(id) {
     const conn = await connDB();
+    const sql = 'SELECT * FROM users WHERE userid=?;';
+    const [rows] = await conn.query(sql, [id]);
 
-    const sql = `delete from users where username = '' and userpassword = '' and userphone = '';`;
-
-    await conn.query(sql);
+    // Retorna o usuário ou null
+    return rows.length > 0 ? rows[0] : null; 
 }
-
-/* SELECT - QUERIES */
 
 async function searchUserByEmail(email) {
     const conn = await connDB();
+    const sql = 'SELECT * FROM users WHERE useremail=?;';
+    const [rows] = await conn.query(sql, [email]);
 
-    const sql = `select * from users where useremail=?;`;;
-
-    // executa o SQL atraves da conexao e armazena o resultado na variável userFound
-    const [userFound] = await conn.query(sql, [email]);
-
-    // verifica se userFound possui pelo menos 1 usuario encontrado no banco de dados
-    if (userFound && userFound.length > 0) {
-        // devolve o userFound para o controle de rotas
-        return userFound[0];
-    } else {
-        // se não existe um userFound retorna um json vazio
-        return {};
-    }
+    // Retorna o usuário ou null
+    return rows.length > 0 ? rows[0] : null;
 }
 
 async function verifyUserExistence(email, password) {
     const conn = await connDB();
+    const sql = "SELECT * FROM users WHERE useremail=? AND userpassword=?;";
+    const [rows] = await conn.query(sql, [email, password]);
 
-    const sql = "select * from users where useremail=? and userpassword=?;";
-
-    const [userFound] = await conn.query(sql, [email, password]);
-
-    // verifica se userFound possui pelo menos 1 registro no banco de dados
-    if (userFound && userFound.length > 0) {
-        // devolve o userFound para o controle de rotas
-        return userFound[0];
-    } else {
-        // se não existe um userFound retorna um json vazio
-        return {};
-    }
+    // Retorna o usuário ou null
+    return rows.length > 0 ? rows[0] : null;
 }
 
 async function searchGenres() {
     const conn = await connDB();
-    
-    const sql = "select * from genres order by gendername;";
-
+    const sql = "SELECT * FROM genres ORDER BY gendername;";
     const [genres] = await conn.query(sql);
 
     return genres;
@@ -115,19 +90,16 @@ async function searchGenres() {
 
 async function getAmountOfMoviesByGender(gender) {
     const conn = await connDB();
-
-    const sql = "select count(*) as total from movie_gender where id_gender=?";
-
+    const sql = "SELECT COUNT(*) AS total FROM movie_gender WHERE id_gender=?";
     const [rows] = await conn.query(sql, [gender]);
 
     return rows[0].total;
 }
 
 module.exports = {
-    insertNewEmail,
     insertUserInformations,
     insertProfiles,
-    cleanEmptyEmails,
+    searchUserById,
     searchUserByEmail,
     verifyUserExistence,
     searchGenres,

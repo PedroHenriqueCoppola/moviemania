@@ -29,13 +29,13 @@
         
                 <div class="emailLogged">
                     <p>
-                        Qual o nome dos seus quatro novos perfis?
+                        Qual o nome dos seus perfis?
                     </p>
                 </div>
             </div>
 
             <div class="usersLogon">
-                <form action="/userslogon" method="POST">
+                <form action="/userslogon/<%= userId %>" method="POST">
                     <div class="inputLayout">
                         <div class="inputContainer">
                             <div class="newUserInput">
@@ -71,13 +71,12 @@
                             </div>
                         </div>
 
-                        <button class="cancelButton" type="button" onclick="redirectToPasswordPage()">Voltar</button>
+                        <button class="cancelButton" type="button" onclick="window.history.back()">Voltar</button>
             
                         <button class="submitButton" type="submit">Finalizar</button>
                     </div>
                 </form>
             </div>
         </div>
-        <script src="/javascripts/userslogon.js"></script>
     </body>
 </html>
