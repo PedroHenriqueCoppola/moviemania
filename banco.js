@@ -49,6 +49,12 @@ async function insertProfiles(profilename, userid) {
     await conn.query(sql, [profilename, userid]);
 }
 
+async function insertNewGender(gendername) {
+    const conn = await connDB();
+    const sql = 'INSERT INTO genres (gendername) VALUES (?);';
+    await conn.query(sql, [gendername]);
+}
+
 // ===========================
 // SELECT - QUERIES 
 // ===========================
@@ -82,7 +88,7 @@ async function verifyUserExistence(email, password) {
 
 async function searchGenres() {
     const conn = await connDB();
-    const sql = "SELECT * FROM genres ORDER BY gendername;";
+    const sql = "SELECT * FROM genres ORDER BY genderid;";
     const [genres] = await conn.query(sql);
 
     return genres;
@@ -96,12 +102,23 @@ async function getAmountOfMoviesByGender(gender) {
     return rows[0].total;
 }
 
+async function verifyGenderExistence(name) {
+    const conn = await connDB();
+    const sql = "SELECT * FROM genres WHERE gendername=?;";
+    const [rows] = await conn.query(sql, [name]);
+
+    // Retorna o gênero (se existe) ou false (se não existe)
+    return rows.length > 0 ? rows[0] : false;
+}
+
 module.exports = {
     insertUserInformations,
     insertProfiles,
+    insertNewGender,
     searchUserById,
     searchUserByEmail,
     verifyUserExistence,
     searchGenres,
-    getAmountOfMoviesByGender
+    getAmountOfMoviesByGender,
+    verifyGenderExistence
 }

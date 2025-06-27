@@ -21,130 +21,73 @@
     --black: hsl(0, 0%, 0%);
     --black-lighter:hsla(0, 0.00%, 0.00%, 0.20);
     --white: hsla(0, 0%, 100%);
+    --soft-white: hsla(0, 0%, 100%, 0.5);
     --gray-bg: hsl(0, 4%, 9%);
     --gray-lighter: hsl(0, 1.90%, 58.00%);
     --gray-button: hsl(0, 12.80%, 92.40%);
     --gray-button-darker: hsl(0, 5.60%, 85.90%);
     --input-border: hsla(0, 0%, 100%, 0.20);
+    --input-border-lighter: hsla(0, 0%, 100%, 0.30);
     --red: hsl(0, 58%, 52%);
     --red-lighter: hsl(0, 63%, 58%);
 }
 
 body {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: var(--black);
 }
 
-header {
+.app {
+    margin-top: 12rem;
     display: flex;
-    margin-top: 2rem;
     flex-direction: column;
+    gap: 10rem;
 }
 
-.title {
+.header {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
 }
 
-.title > h1 {
-    font-size: 3rem;
+.header > h1 {
+    color: var(--white);
+    font-size: 2.8rem;
 }
 
-.title > img {
-    max-width: 15%;
+.header > img {
+    max-width: 10%;
 }
 
-/* .line {
-    border: 1px solid var(--black-lighter);
-} */
-
-.app {
+.newGender {
+    width: 55rem;
+    background-color: var(--black);
+    border: 1px solid var(--input-border-lighter);
+    border-radius: 2rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 2.5rem;
-}
-
-.infos {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 5rem;
-}
-
-.infos > h4 {
-    font-size: 1.4rem;
-    font-weight: 400;
-}
-
-.finishTitle {
-    max-width: 30rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-top: 2.4rem;
-}
-
-.finishTitle > h2 {
-    font-size: 2.6rem;
-    font-weight: 700;
-}
-
-.stepper {
-    width: 35%;
-    margin-top: 5rem;
-}
-
-.emailLogged {
-    margin-top: 5rem;
-    font-size: 1.4rem;
-    font-weight: 400;
-}
-
-.emailLogged > p > span {
-    font-weight: bold;
-}
-
-.usersLogon {
-    display: flex;
-    flex-direction: column;
-}
-
-.inputLayout {
-    display: flex;
-    flex-direction: column;
-    width: 40rem;
     gap: 2rem;
+    padding: 4rem 5rem;
+}
+
+.newGender > h2 {
+    color: #fff;
+    font-size: 2.4rem;
 }
 
 .inputContainer {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
-.newUserInput {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-.newUserInput > img {
-    width: 3.5rem;
-    height: 3.5rem;
-}
-
-.inputContent {
+.nameInput {
     position: relative;
-    height: 4.3rem;
-    width: 100%;
-    line-height: 4.3rem;
+    height: 4rem;
+    line-height: 4rem;
 }
 
 input {
@@ -152,12 +95,12 @@ input {
     outline: none;
     font-size: 1.4rem;
     padding: 0 3rem;
-    line-height: 4.3rem;
+    line-height: 4rem;
     border-radius: 1rem;
-    border: 1px solid var(--black);
+    border: 1px solid var(--input-border-lighter);
     background: transparent;
     transition: 0.1s ease;
-    background-color: var(--white);
+    background-color: var(--black);
     z-index: 1;
     width: 100%;
 }
@@ -167,9 +110,8 @@ input {
     top: .1rem;
     left: 2rem;
     font-size: 1.4rem;
-    height: 90%;
-    color: var(--gray-lighter);
-    background-color: var(--white);
+    color: var(--input-border-lighter);
+    background-color: var(--black);
     transition: 0.2s ease;
     pointer-events: none;
     z-index: 2;
@@ -177,14 +119,13 @@ input {
 
 input:focus,
 input:valid {
-    color: var(--black);
+    color: var(--white);
     border: 2px solid var(--red);
 }
 
-.inputContent > input:focus + .labelline,
-.inputContent > input:valid + .labelline {
+.nameInput > input:focus + .labelline,
+.nameInput > input:valid + .labelline {
     color: var(--red);
-    font-weight: 500;
     height: 3rem;
     line-height: 3rem;
     padding: 0 1.2rem;
@@ -192,17 +133,23 @@ input:valid {
     z-index: 9;
 }
 
+.actionsButtons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
 .cancelButton {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 4.3rem;
+    height: 4rem;
     border-radius: 8px;
     border: 1px solid var(--black);
     background-color: var(--gray-button-darker);
     color: var(--black);
     font-weight: 600;
-    margin-top: 1rem;
+    width: 50%;
 }
 
 .cancelButton:hover {
@@ -214,12 +161,13 @@ input:valid {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 4.3rem;
+    height: 4rem;
     border-radius: 8px;
-    border: 1px solid var(--black);
+    border: none;
     background-color: var(--red);
     color: var(--white);
     font-weight: 600;
+    width: 50%;
 }
 
 .submitButton:hover {

@@ -10,13 +10,13 @@ router.get('/', function(req, res) {
     if (global.isAdminLoggedIn) {
         return res.redirect('/admin/genres');
     }
+
     res.render('admin/login', { title: 'MovieMania - Admin' });
 });
 
 /* GET genres */
+// Verificação na função de get. Só roda se o admin estiver logado
 router.get('/genres', verifyLogin, async function(req, res) {
-    // Verificação na função de get. Só roda se o admin estiver logado
-
     const genres = await global.banco.searchGenres();
 
     const genresWithCount = await Promise.all(
@@ -31,10 +31,12 @@ router.get('/genres', verifyLogin, async function(req, res) {
         })
     );
 
-    res.render('admin/genres', {
-        admNome: global.adminName,
-        genresWithCount
-    });
+    res.render('admin/genres', { admNome: global.adminName, genresWithCount });
+});
+
+/* GET newgender */
+router.get('/newgender', verifyLogin, async function(req, res) {
+    res.render('admin/newgender');
 });
 
 // rota a ser criada: logout do admin
@@ -63,6 +65,24 @@ router.post('/loginadmin', async function(req, res) {
         res.redirect('/admin/genres');
     } else {
         res.redirect('/admin');
+    }
+});
+
+/* POST newgender */
+router.post('/newgender', async function(req, res) {
+    const gendername = req.body.name;
+
+    const gender = await global.banco.verifyGenderExistence(gendername);
+
+    // Se o gênero ainda não existir
+    if (gender == false) {
+        try {
+            await global.banco.insertNewGender(gendername);
+            res.redirect('/admin/genres');
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('Erro interno ao inserir novo gênero.');
+        }
     }
 });
 
