@@ -62,28 +62,28 @@ async function insertNewGender(gendername) {
 async function searchUserById(id) {
     const conn = await connDB();
     const sql = 'SELECT * FROM users WHERE userid=?;';
-    const [rows] = await conn.query(sql, [id]);
+    const [result] = await conn.query(sql, [id]);
 
     // Retorna o usuário ou null
-    return rows.length > 0 ? rows[0] : null; 
+    return result.length > 0 ? result[0] : null; 
 }
 
 async function searchUserByEmail(email) {
     const conn = await connDB();
     const sql = 'SELECT * FROM users WHERE useremail=?;';
-    const [rows] = await conn.query(sql, [email]);
+    const [result] = await conn.query(sql, [email]);
 
     // Retorna o usuário ou null
-    return rows.length > 0 ? rows[0] : null;
+    return result.length > 0 ? result[0] : null;
 }
 
 async function verifyUserExistence(email, password) {
     const conn = await connDB();
     const sql = "SELECT * FROM users WHERE useremail=? AND userpassword=?;";
-    const [rows] = await conn.query(sql, [email, password]);
+    const [result] = await conn.query(sql, [email, password]);
 
     // Retorna o usuário ou null
-    return rows.length > 0 ? rows[0] : null;
+    return result.length > 0 ? result[0] : null;
 }
 
 async function searchGenres() {
@@ -94,21 +94,21 @@ async function searchGenres() {
     return genres;
 }
 
-async function getAmountOfMoviesByGender(gender) {
+async function getAmountOfMoviesByGender(genderid) {
     const conn = await connDB();
     const sql = "SELECT COUNT(*) AS total FROM movie_gender WHERE id_gender=?";
-    const [rows] = await conn.query(sql, [gender]);
+    const [result] = await conn.query(sql, [genderid]);
 
-    return rows[0].total;
+    return result[0].total;
 }
 
-async function verifyGenderExistence(name) {
+async function verifyGenderExistenceByName(name) {
     const conn = await connDB();
     const sql = "SELECT * FROM genres WHERE gendername=?;";
-    const [rows] = await conn.query(sql, [name]);
+    const [result] = await conn.query(sql, [name]);
 
     // Retorna o gênero (se existe) ou false (se não existe)
-    return rows.length > 0 ? rows[0] : false;
+    return result.length > 0 ? result[0] : false;
 }
 
 module.exports = {
@@ -120,5 +120,5 @@ module.exports = {
     verifyUserExistence,
     searchGenres,
     getAmountOfMoviesByGender,
-    verifyGenderExistence
+    verifyGenderExistenceByName,
 }
