@@ -56,6 +56,16 @@ async function insertNewGender(gendername) {
 }
 
 // ===========================
+// DELETE - QUERIES 
+// ===========================
+
+async function deleteGender(genderid) {
+    const conn = await connDB();
+    const sql = "DELETE FROM genres WHERE genderid=?";
+    await conn.query(sql, [genderid]);
+}
+
+// ===========================
 // SELECT - QUERIES 
 // ===========================
 
@@ -102,6 +112,28 @@ async function getAmountOfMoviesByGender(genderid) {
     return result[0].total;
 }
 
+async function getGendersWithMovieCount() {
+    try {
+        const genres = await searchGenres(); 
+
+        const genresWithCount = await Promise.all(
+            genres.map(async (gender) => {
+                const amount = await getAmountOfMoviesByGender(gender.genderid);
+
+                return {
+                    genderId: gender.genderid,
+                    genderName: gender.gendername,
+                    moviesAmount: amount
+                };
+            })
+        );
+        
+        return genresWithCount;
+    } catch (error) {
+        console.error("Erro ao buscar gêneros com contagem de filmes:", error);
+    }
+}
+
 async function verifyGenderExistenceByName(name) {
     const conn = await connDB();
     const sql = "SELECT * FROM genres WHERE gendername=?;";
@@ -115,10 +147,12 @@ module.exports = {
     insertUserInformations,
     insertProfiles,
     insertNewGender,
+    deleteGender,
     searchUserById,
     searchUserByEmail,
     verifyUserExistence,
     searchGenres,
     getAmountOfMoviesByGender,
+    getGendersWithMovieCount,
     verifyGenderExistenceByName,
 }

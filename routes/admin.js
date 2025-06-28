@@ -15,28 +15,43 @@ router.get('/', function(req, res) {
 });
 
 /* GET genres */
-// Verificação na função de get. Só roda se o admin estiver logado
 router.get('/genres', verifyLogin, async function(req, res) {
-    const genres = await global.banco.searchGenres();
-
-    const genresWithCount = await Promise.all(
-        genres.map(async (gender) => {
-            const amount = await global.banco.getAmountOfMoviesByGender(gender.genderid);
-
-            return {
-                genderId: gender.genderid,
-                genderName: gender.gendername,
-                moviesAmount: amount
-            };
-        })
-    );
-
-    res.render('admin/genres', { admNome: global.adminName, genresWithCount });
+    try {
+        const genresWithCount = await global.banco.getGendersWithMovieCount();
+    
+        res.render('admin/genres', {
+            admNome: global.adminName,
+            genresWithCount: genresWithCount
+        });
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 /* GET newgender */
 router.get('/newgender', verifyLogin, async function(req, res) {
     res.render('admin/newgender');
+});
+
+/* GET delete gender */
+router.get('/deletegender/:id', async function(req, res) {
+    const genderid = req.params.id;
+
+    try {
+        // Verifica se existem filmes associados
+        const moviesAmount = await global.banco.getAmountOfMoviesByGender(genderid);
+
+        if (moviesAmount > 0) {
+            return res.redirect('/admin/genres');
+        }
+
+        // Exclui o gênero
+        await global.banco.deleteGender(genderid);
+        return res.redirect('/admin/genres');
+    } catch (error) {
+        console.error("Erro ao excluir gênero:", error);
+        return res.redirect('/admin/genres');
+    }
 });
 
 // rota a ser criada: logout do admin
