@@ -72,7 +72,7 @@ router.post('/loginadmin', async function(req, res) {
 router.post('/newgender', async function(req, res) {
     const gendername = req.body.name;
 
-    const gender = await global.banco.verifyGenderExistence(gendername);
+    const gender = await global.banco.verifyGenderExistenceByName(gendername);
 
     // Se o gênero ainda não existir
     if (gender == false) {
