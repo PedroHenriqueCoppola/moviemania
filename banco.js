@@ -66,6 +66,16 @@ async function deleteGender(genderid) {
 }
 
 // ===========================
+// UPDATE - QUERIES 
+// ===========================
+
+async function updateGender(gendername, genderid) {
+    const conn = await connDB();
+    const sql = "UPDATE genres SET gendername=? WHERE genderid=?;";
+    await conn.query(sql, [gendername, genderid]);
+}
+
+// ===========================
 // SELECT - QUERIES 
 // ===========================
 
@@ -143,11 +153,21 @@ async function verifyGenderExistenceByName(name) {
     return result.length > 0 ? result[0] : false;
 }
 
+async function getGenderById(genderid) {
+    const conn = await connDB();
+    const sql = "SELECT * FROM genres WHERE genderid=?;";
+    const [result] = await conn.query(sql, [genderid]);
+
+    // Retorna o gênero (se existe) ou false (se não existe)
+    return result.length > 0 ? result[0] : false;
+}
+
 module.exports = {
     insertUserInformations,
     insertProfiles,
     insertNewGender,
     deleteGender,
+    updateGender,
     searchUserById,
     searchUserByEmail,
     verifyUserExistence,
@@ -155,4 +175,5 @@ module.exports = {
     getAmountOfMoviesByGender,
     getGendersWithMovieCount,
     verifyGenderExistenceByName,
+    getGenderById
 }

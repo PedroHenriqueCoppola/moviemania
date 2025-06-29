@@ -54,6 +54,19 @@ router.get('/deletegender/:id', async function(req, res) {
     }
 });
 
+/* GET updategender */
+router.get('/updategender/:id', verifyLogin, async function(req, res) {
+    const genderid = req.params.id;
+    const gender = await global.banco.getGenderById(genderid);
+
+    if (gender && genderid) {
+        res.render('admin/updategender', {
+            genderId: genderid,
+            genderName: gender.gendername
+        });
+    }
+});
+
 // rota a ser criada: logout do admin
 // router.get('/logout', function(req, res){
 //     global.isAdminLoggedIn = false;
@@ -98,6 +111,26 @@ router.post('/newgender', async function(req, res) {
             console.error(err);
             res.status(500).send('Erro interno ao inserir novo gênero.');
         }
+    }
+});
+
+/* POST updategender */
+router.post('/updategender', async function(req, res) {
+    const genderid = req.body.genderid;
+    const gendername = req.body.name;
+
+    const gender = await global.banco.verifyGenderExistenceByName(gendername);
+
+    if (gendername != "" && gender == false) {
+        try {
+            await global.banco.updateGender(gendername, genderid);
+            res.redirect('/admin/genres');
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Erro interno ao atualizar gênero.');
+        }
+    } else {
+        console.error("Insira um gênero válido e não existente");
     }
 });
 

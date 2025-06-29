@@ -56,7 +56,10 @@
                                     <td class="thirdTd"><%= gender.moviesAmount %></td>
                                     <td class="fourthTd">
                                         <div class="actionButtons">
-                                            <button><img src="/images/edit.png" alt="Editar" class="editButton"></button>
+                                            <a href="/admin/updategender/<%= gender.genderId %>">
+                                                <img src="/images/edit.png" alt="Editar" class="editButton">
+                                            </a>
+                                            
                                             <a href="/admin/deletegender/<%= gender.genderId %>" onclick="return confirm('Deseja mesmo deletar o gênero?');">
                                                 <img src="/images/delete.png" alt="Excluir" class="removeButton">
                                             </a>

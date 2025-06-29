@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Gêneros</title>
+        <link rel="stylesheet" href="/stylesheets/admin/updategender.css" />
+    </head>
+    <body>
+        <div class="app">
+            <div class="header">
+                <img src="/images/logo.png" alt="logo">
+                <h1>MovieMania</h1>
+            </div>
+
+            <div class="updateGender">
+                <h2>Editar gênero</h2>
+
+                <h4>Nome atual: <span class="name"><%= genderName %></span></h4>
+    
+                <form action="/admin/updategender" method="POST">
+                    <input type="hidden" name="genderid" value="<%= genderId %>">
+
+                    <div class="inputContainer">
+                        <div class="nameInput">
+                            <input type="text" required id="name" name="name" autocomplete="off" value="<%= genderName %>">
+                            <label class="labelline" for="name">Nome</label>
+                        </div>
+
+                        <div class="actionsButtons">
+                            <button class="cancelButton" type="button" onclick="window.history.back()">Voltar</button>
+    
+                            <button class="submitButton" type="submit">Atualizar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
