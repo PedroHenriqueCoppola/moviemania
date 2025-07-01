@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Filmes</title>
+        <link rel="stylesheet" href="/stylesheets/admin/newmovie.css" />
+    </head>
+    <body>
+        <div class="app">
+            <div class="header">
+                <img src="/images/logo.png" alt="logo">
+                <h1>MovieMania</h1>
+            </div>
+
+            <div class="newMovie">
+                <h2>Novo filme</h2>
+    
+                <form action="/admin/newmovie" method="POST">
+                    <div class="inputContainer">
+                        <div class="titleInput">
+                            <input type="text" required id="title" name="title" autocomplete="off">
+                            <label class="labelline" for="title">Título</label>
+                        </div>
+
+                        <div class="descInput">
+                            <input type="text" required id="desc" name="desc" autocomplete="off">
+                            <label class="labelline" for="desc">Descrição</label>
+                        </div>
+
+                        <div class="imageInput">
+                            <input type="text" required id="image" name="image" autocomplete="off">
+                            <label class="labelline" for="image">Imagem - Upload</label>
+                        </div>
+
+                        <div class="dateInput">
+                            <input type="date" required id="date" name="date" autocomplete="off">
+                            <label class="labelline" for="date">Data de lançamento</label>
+                        </div>
+
+                        <div class="durationInput">
+                            <input type="time" id="duration" name="duration" required autocomplete="off">
+                            <label class="labelline" for="duration">Duração (HH:MM:SS)</label>
+                        </div>
+
+                        <div class="actionsButtons">
+                            <button class="cancelButton" type="button" onclick="window.history.back()">Voltar</button>
+    
+                            <button class="submitButton" type="submit">Adicionar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

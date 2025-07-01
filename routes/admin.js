@@ -80,6 +80,11 @@ router.get('/movies', verifyLogin, async function(req, res) {
     }
 });
 
+/* GET newgender */
+router.get('/newmovie', verifyLogin, async function(req, res) {
+    res.render('admin/newmovie');
+});
+
 // rota a ser criada: logout do admin
 // router.get('/logout', function(req, res){
 //     global.isAdminLoggedIn = false;

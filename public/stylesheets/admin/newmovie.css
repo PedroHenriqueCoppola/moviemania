@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+
+    font-family: "Open Sans", sans-serif;
+    user-select: none;
+}
+
+:root {
+    font-size: 62.5%;
+
+    --black: hsl(0, 0%, 0%);
+    --black-lighter:hsla(0, 0.00%, 0.00%, 0.20);
+    --white: hsla(0, 0%, 100%);
+    --soft-white: hsla(0, 0%, 100%, 0.5);
+    --gray-bg: hsl(0, 4%, 9%);
+    --gray-lighter: hsl(0, 1.90%, 58.00%);
+    --gray-button: hsl(0, 12.80%, 92.40%);
+    --gray-button-darker: hsl(0, 5.60%, 85.90%);
+    --input-border: hsla(0, 0%, 100%, 0.20);
+    --input-border-lighter: hsla(0, 0%, 100%, 0.30);
+    --red: hsl(0, 58%, 52%);
+    --red-lighter: hsl(0, 63%, 58%);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--black);
+}
+
+.app {
+    margin-top: 8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8rem;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.header > h1 {
+    color: var(--white);
+    font-size: 2.8rem;
+}
+
+.header > img {
+    max-width: 10%;
+}
+
+.newMovie {
+    width: 55rem;
+    background-color: var(--black);
+    border: 1px solid var(--input-border-lighter);
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 4rem 5rem;
+}
+
+.newMovie > h2 {
+    color: #fff;
+    font-size: 2.4rem;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.titleInput,
+.descInput,
+.imageInput,
+.dateInput,
+.durationInput {
+    position: relative;
+    height: 4rem;
+    line-height: 4rem;
+}
+
+input {
+    position: absolute;
+    outline: none;
+    font-size: 1.4rem;
+    padding: 0 3rem;
+    line-height: 4rem;
+    border-radius: 1rem;
+    border: 1px solid var(--input-border-lighter);
+    background: transparent;
+    transition: 0.1s ease;
+    background-color: var(--black);
+    z-index: 1;
+    width: 100%;
+}
+
+.labelline {
+    position: absolute;
+    top: .1rem;
+    left: 2rem;
+    font-size: 1.4rem;
+    color: var(--input-border-lighter);
+    background-color: var(--black);
+    transition: 0.2s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+input:focus,
+input:valid {
+    color: var(--white);
+    border: 2px solid var(--red);
+}
+
+.titleInput > input:focus + .labelline,
+.titleInput > input:valid + .labelline,
+.descInput > input:focus + .labelline,
+.descInput > input:valid + .labelline,
+.imageInput > input:focus + .labelline,
+.imageInput > input:valid + .labelline,
+.dateInput > input:focus + .labelline,
+.dateInput > input:valid + .labelline,
+.durationInput > input:focus + .labelline,
+.durationInput > input:valid + .labelline {
+    color: var(--red);
+    height: 3rem;
+    line-height: 3rem;
+    padding: 0 1.2rem;
+    transform: translate(-1.5rem, -1.4rem) scale(0.88);
+    z-index: 9;
+}
+
+.actionsButtons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.cancelButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    border-radius: 8px;
+    border: 1px solid var(--black);
+    background-color: var(--gray-button-darker);
+    color: var(--black);
+    font-weight: 600;
+    width: 50%;
+}
+
+.cancelButton:hover {
+    background-color: var(--gray-button);
+    cursor: pointer;
+}
+
+.submitButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--red);
+    color: var(--white);
+    font-weight: 600;
+    width: 50%;
+}
+
+.submitButton:hover {
+    background-color: var(--red-lighter);
+    cursor: pointer;
+}
