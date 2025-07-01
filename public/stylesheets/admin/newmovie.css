@@ -86,6 +86,7 @@ body {
 
 .titleInput,
 .descInput,
+.genderInput,
 .imageInput,
 .dateInput,
 .durationInput {
@@ -131,6 +132,8 @@ input:valid {
 .titleInput > input:valid + .labelline,
 .descInput > input:focus + .labelline,
 .descInput > input:valid + .labelline,
+.genderInput > input:focus + .labelline,
+.genderInput > input:valid + .labelline,
 .imageInput > input:focus + .labelline,
 .imageInput > input:valid + .labelline,
 .dateInput > input:focus + .labelline,
