@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>Gêneros</title>
-        <link rel="stylesheet" href="/stylesheets/admin/genres.css" />
+        <title>Filmes</title>
+        <link rel="stylesheet" href="/stylesheets/admin/movies.css" />
     </head>
     <body>
         <div class="app">
@@ -23,44 +23,44 @@
                     <div class="menus">
                         <a href="">Estatísticas</a>
                         <a href="">Usuários</a>
-                        <a href="" class="picked">Gêneros</a>
-                        <a href="/admin/movies">Filmes</a>
+                        <a href="/admin/genres">Gêneros</a>
+                        <a href="" class="picked">Filmes</a>
                     </div>
 
                     <div class="line"></div>
                 </div>
             </div>
 
-            <div class="genres">
-                <div class="genresTitle">
-                    <h2>Gêneros</h2>
+            <div class="movies">
+                <div class="moviesTitle">
+                    <h2>Filmes</h2>
 
-                    <a href="/admin/newgender" class="addButton">Novo gênero</a>
+                    <a href="/admin/newmovie" class="addButton">Novo filme</a>
                 </div>
 
-                <div class="genresTableDiv">
-                    <table id="genresTable">
+                <div class="moviesTableDiv">
+                    <table id="moviesTable">
                         <thead>
                             <tr>
-                                <th class="genderId">Id</th>
-                                <th class="genderName">Nome</th>
-                                <th class="moviesAmount">Filmes</th>
+                                <th class="movieId">Id</th>
+                                <th class="movieName">Nome</th>
+                                <th class="gender">Gênero</th>
                                 <th class="action">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <% genresWithCount.forEach(gender => { %>
+                            <% movies.forEach(movie => { %>
                                 <tr>
-                                    <td class="firstTd"><%= gender.genderId %></td>
-                                    <td class="secondTd"><%= gender.genderName %></td>
-                                    <td class="thirdTd"><%= gender.moviesAmount %></td>
+                                    <td class="firstTd"><%= movie.movieid %></td>
+                                    <td class="secondTd"><%= movie.movietitle %></td>
+                                    <td class="thirdTd"><%= movie.gendername %></td>
                                     <td class="fourthTd">
                                         <div class="actionButtons">
-                                            <a href="/admin/updategender/<%= gender.genderId %>">
+                                            <a href="">
                                                 <img src="/images/edit.png" alt="Editar" class="editButton">
                                             </a>
                                             
-                                            <a href="/admin/deletegender/<%= gender.genderId %>" onclick="return confirm('Deseja mesmo deletar o gênero?');">
+                                            <a href="" onclick="return confirm('Deseja mesmo deletar o filme?');">
                                                 <img src="/images/delete.png" alt="Excluir" class="removeButton">
                                             </a>
                                         </div>

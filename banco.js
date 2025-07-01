@@ -162,6 +162,29 @@ async function getGenderById(genderid) {
     return result.length > 0 ? result[0] : false;
 }
 
+async function searchMovies() {
+    const conn = await connDB();
+    const sql = `
+        SELECT
+            m.movieid,
+            m.movietitle,
+            g.gendername
+        FROM
+            movies AS m
+        LEFT JOIN movie_gender AS mg 
+            ON m.movieid = mg.id_movie
+        LEFT JOIN genres AS g 
+            ON mg.id_gender = g.genderid
+        GROUP BY
+            m.movieid
+        ORDER BY
+            m.movieid;
+    `;
+    const [movies] = await conn.query(sql);
+
+    return movies;
+}
+
 module.exports = {
     insertUserInformations,
     insertProfiles,
@@ -175,5 +198,6 @@ module.exports = {
     getAmountOfMoviesByGender,
     getGendersWithMovieCount,
     verifyGenderExistenceByName,
-    getGenderById
+    getGenderById,
+    searchMovies
 }

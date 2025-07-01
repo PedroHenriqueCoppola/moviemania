@@ -67,6 +67,19 @@ router.get('/updategender/:id', verifyLogin, async function(req, res) {
     }
 });
 
+/* GET movies */
+router.get('/movies', verifyLogin, async function(req, res) {
+    try {
+        const movies = await global.banco.searchMovies();
+
+        res.render('admin/movies', {
+            movies: movies
+        });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 // rota a ser criada: logout do admin
 // router.get('/logout', function(req, res){
 //     global.isAdminLoggedIn = false;

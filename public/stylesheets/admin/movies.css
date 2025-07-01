@@ -108,7 +108,7 @@ body {
     border: 1px solid var(--input-border);
 }
 
-.genres {
+.movies {
     border: 2px solid var(--input-border);
     border-radius: 1rem;
     margin-top: 6rem;
@@ -117,17 +117,17 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 3rem;
-    width: 70rem;
+    width: 85rem;
 }
 
-.genresTitle {
+.moviesTitle {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 }
 
-.genresTitle > h2 {
+.moviesTitle > h2 {
     color: var(--white);
     font-size: 2.5rem;
 }
@@ -149,47 +149,47 @@ body {
     opacity: .8;
 }
 
-.genresTableDiv {
+.moviesTableDiv {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-#genresTable {
+#moviesTable {
     border-collapse: collapse;
 }
 
-#genresTable > thead > tr > th {
+#moviesTable > thead > tr > th {
     color: var(--white);
     font-size: 1.5rem;
     font-weight: bold;
-    padding: .7rem;
+    padding: .8rem;
 }
 
-.genderId {
+.movieId {
     border-top: none;
     border-left: none;
-    width: 12%;
+    width: 10%;
 }
 
-.genderName {
+.movieName {
     border-top: none;
     border-left: 1px solid var(--soft-white);
     border-right: 1px solid var(--soft-white);
     text-align: start;
 }
 
-.moviesAmount {
+.gender {
     border-top: none;
     border-left: 1px solid var(--soft-white);
     border-right: 1px solid var(--soft-white);
-    width: 15%;
+    width: 25%;
 }
 
 .action {
     border-top: none;
     border-right: none;
-    width: 20%;
+    width: 15%;
 }
 
 .action {
