@@ -65,6 +65,12 @@ async function deleteGender(genderid) {
     await conn.query(sql, [genderid]);
 }
 
+async function deleteMovie(movieid) {
+    const conn = await connDB();
+    const sql = "DELETE FROM movies WHERE movieid=?";
+    await conn.query(sql, [movieid]);
+}
+
 // ===========================
 // UPDATE - QUERIES 
 // ===========================
@@ -190,6 +196,7 @@ module.exports = {
     insertProfiles,
     insertNewGender,
     deleteGender,
+    deleteMovie,
     updateGender,
     searchUserById,
     searchUserByEmail,

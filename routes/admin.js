@@ -80,9 +80,23 @@ router.get('/movies', verifyLogin, async function(req, res) {
     }
 });
 
-/* GET newgender */
+/* GET newmovie */
 router.get('/newmovie', verifyLogin, async function(req, res) {
     res.render('admin/newmovie');
+});
+
+/* GET delete movie */
+router.get('/deletemovie/:id', async function(req, res) {
+    const movieid = req.params.id;
+
+    try {
+        // Exclui o filme
+        await global.banco.deleteMovie(movieid);
+        return res.redirect('/admin/movies');
+    } catch (error) {
+        console.error("Erro ao excluir filme:", error);
+        return res.redirect('/admin/movies');
+    }
 });
 
 // rota a ser criada: logout do admin
