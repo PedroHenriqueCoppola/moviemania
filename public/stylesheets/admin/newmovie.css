@@ -86,7 +86,6 @@ body {
 
 .titleInput,
 .descInput,
-.genderInput,
 .imageInput,
 .dateInput,
 .durationInput {
@@ -132,8 +131,6 @@ input:valid {
 .titleInput > input:valid + .labelline,
 .descInput > input:focus + .labelline,
 .descInput > input:valid + .labelline,
-.genderInput > input:focus + .labelline,
-.genderInput > input:valid + .labelline,
 .imageInput > input:focus + .labelline,
 .imageInput > input:valid + .labelline,
 .dateInput > input:focus + .labelline,
@@ -146,6 +143,49 @@ input:valid {
     padding: 0 1.2rem;
     transform: translate(-1.5rem, -1.4rem) scale(0.88);
     z-index: 9;
+}
+
+.genderSelect {
+    width: 100%;
+}
+
+.genderSelect > select {
+    outline: none;
+    font-size: 1.4rem;
+    padding: 0 2rem;
+    line-height: 4rem;
+    border-radius: 1rem;
+    border: 1px solid var(--input-border-lighter);
+    background: transparent;
+    transition: 0.1s ease;
+    background-color: var(--black);
+    z-index: 1;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none; 
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"%3E%3Cpath fill="%23FFF" d="M7 10l5 5 5-5H7z"/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    color: var(--input-border-lighter);
+}
+
+.genderSelect > select:focus {
+    color: var(--white);
+    border: 2px solid var(--red);
+}
+
+.genderSelect > select.selected-and-valid {
+    color: var(--white);
+    border: 2px solid var(--red);
+}
+
+.genderSelect > select > option {
+    background-color: var(--black); 
+    color: var(--white);
+}
+
+.genderSelect > select > option[value=""] {
+    display: none;
 }
 
 .actionsButtons {

@@ -29,10 +29,13 @@
                             <label class="labelline" for="desc">Descrição</label>
                         </div>
 
-                        <!-- TO-DO: TRANSFORMAR EM SELECT COM TODOS OS GENEROS -->
-                        <div class="genderInput">
-                            <input type="text" required id="gender" name="gender" autocomplete="off">
-                            <label class="labelline" for="gender">Gênero</label>
+                        <div class="genderSelect">
+                            <select name="gender" id="gender">
+                                <option value="" disabled selected>Selecione um gênero</option>
+                                <% allGenres.forEach(gender => { %>
+                                    <option value="<%= gender.genderid %>"><%= gender.gendername %></option>
+                                <% }) %>
+                            </select>
                         </div>
 
                         <div class="imageInput">
@@ -59,5 +62,22 @@
                 </form>
             </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const genderSelect = document.getElementById('gender');
+        
+                function updateSelectValidationStyle() {
+                    if (genderSelect.value !== "") {
+                        genderSelect.classList.add('selected-and-valid');
+                    } else {
+                        genderSelect.classList.remove('selected-and-valid');
+                    }
+                }
+
+                genderSelect.addEventListener('change', updateSelectValidationStyle);
+                updateSelectValidationStyle();
+            });
+        </script>
     </body>
 </html>

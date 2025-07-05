@@ -82,7 +82,13 @@ router.get('/movies', verifyLogin, async function(req, res) {
 
 /* GET newmovie */
 router.get('/newmovie', verifyLogin, async function(req, res) {
-    res.render('admin/newmovie');
+    const genres = await global.banco.searchGenres();
+
+    console.log("generos: "+JSON.stringify(genres));
+
+    res.render('admin/newmovie', {
+        allGenres: genres
+    });
 });
 
 /* GET delete movie */
