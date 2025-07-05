@@ -85,6 +85,14 @@ async function updateGender(gendername, genderid) {
 // SELECT - QUERIES 
 // ===========================
 
+async function searchUsers() {
+    const conn = await connDB();
+    const sql = "SELECT * FROM users ORDER BY userid;";
+    const [users] = await conn.query(sql);
+
+    return users;
+}
+
 async function searchUserById(id) {
     const conn = await connDB();
     const sql = 'SELECT * FROM users WHERE userid=?;';
@@ -191,7 +199,39 @@ async function searchMovies() {
     return movies;
 }
 
+async function getAmountOfProfilesByUser(userid) {
+    const conn = await connDB();
+    const sql = "SELECT COUNT(*) AS total FROM profiles WHERE id_user=?";
+    const [result] = await conn.query(sql, [userid]);
+
+    return result[0].total;
+}
+
+async function getUsersWithProfileCount() {
+    try {
+        const users = await searchUsers(); 
+
+        const usersWithProfileCount = await Promise.all(
+            users.map(async (user) => {
+                const amount = await getAmountOfProfilesByUser(user.userid);
+
+                return {
+                    userId: user.userid,
+                    userName: user.username,
+                    userEmail: user.useremail,
+                    profilesAmount: amount
+                };
+            })
+        );
+
+        return usersWithProfileCount;
+    } catch (error) {
+        console.error("Erro ao buscar usuários com contagem de perfis:", error);
+    }
+}
+
 module.exports = {
+    searchUsers,
     insertUserInformations,
     insertProfiles,
     insertNewGender,
@@ -206,5 +246,7 @@ module.exports = {
     getGendersWithMovieCount,
     verifyGenderExistenceByName,
     getGenderById,
-    searchMovies
+    searchMovies,
+    getAmountOfProfilesByUser,
+    getUsersWithProfileCount
 }

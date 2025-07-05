@@ -108,7 +108,7 @@ body {
     border: 1px solid var(--input-border);
 }
 
-.movies {
+.usersDiv {
     border: 2px solid var(--input-border);
     border-radius: 1rem;
     margin-top: 6rem;
@@ -117,17 +117,17 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 3rem;
-    width: 85rem;
+    width: 88rem;
 }
 
-.moviesTitle {
+.usersTitle {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 }
 
-.moviesTitle > h2 {
+.usersTitle > h2 {
     color: var(--white);
     font-size: 2.5rem;
 }
@@ -149,41 +149,49 @@ body {
     opacity: .8;
 }
 
-.moviesTableDiv {
+.usersTableDiv {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-#moviesTable {
+#usersTable {
     border-collapse: collapse;
 }
 
-#moviesTable > thead > tr > th {
+#usersTable > thead > tr > th {
     color: var(--white);
     font-size: 1.5rem;
     font-weight: bold;
-    padding: .8rem;
+    padding: .7rem;
 }
 
-.movieId {
+.userId {
     border-top: none;
     border-left: none;
     width: 10%;
 }
 
-.movieName {
+.userName {
+    border-top: none;
+    border-left: 1px solid var(--soft-white);
+    border-right: 1px solid var(--soft-white);
+    text-align: start;
+    width: 28%;
+}
+
+.userEmail {
     border-top: none;
     border-left: 1px solid var(--soft-white);
     border-right: 1px solid var(--soft-white);
     text-align: start;
 }
 
-.gender {
+.profilesAmount {
     border-top: none;
     border-left: 1px solid var(--soft-white);
     border-right: 1px solid var(--soft-white);
-    width: 25%;
+    width: 12%;
 }
 
 .action {
@@ -214,28 +222,32 @@ td {
 }
 
 .thirdTd {
-    text-align: center;
+    text-align: start;
 }
 
 .fourthTd {
     text-align: center;
+}
+
+.fifthTd {
+    text-align: center;
     border-right: none;
 }
 
-.fourthTd > .actionButtons {
+.fifthTd > .actionButtons {
     display: flex;
     gap: 1.5rem;
     align-items: center;
     justify-content: center;
 }
 
-.fourthTd > .actionButtons > button {
+.fifthTd > .actionButtons > button {
     background: none;
     border: none;
     transition: opacity linear .2s;
 }
 
-.fourthTd > .actionButtons > button:hover {
+.fifthTd > .actionButtons > button:hover {
     cursor: pointer;
     opacity: .7;
 }

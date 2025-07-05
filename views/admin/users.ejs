@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>Gêneros</title>
-        <link rel="stylesheet" href="/stylesheets/admin/genres.css" />
+        <link rel="stylesheet" href="/stylesheets/admin/users.css" />
     </head>
     <body>
         <div class="app">
@@ -22,8 +22,8 @@
                 <div class="headerMenus">
                     <div class="menus">
                         <a href="">Estatísticas</a>
-                        <a href="/admin/users">Usuários</a>
-                        <a href="" class="picked">Gêneros</a>
+                        <a href="" class="picked">Usuários</a>
+                        <a href="/admin/genres">Gêneros</a>
                         <a href="/admin/movies">Filmes</a>
                     </div>
 
@@ -31,36 +31,38 @@
                 </div>
             </div>
 
-            <div class="genres">
-                <div class="genresTitle">
-                    <h2>Gêneros</h2>
+            <div class="usersDiv">
+                <div class="usersTitle">
+                    <h2>Usuários</h2>
 
-                    <a href="/admin/newgender" class="addButton">Novo gênero</a>
+                    <a href="/admin/newuser" class="addButton">Novo usuário</a>
                 </div>
 
-                <div class="genresTableDiv">
-                    <table id="genresTable">
+                <div class="usersTableDiv">
+                    <table id="usersTable">
                         <thead>
                             <tr>
-                                <th class="genderId">Id</th>
-                                <th class="genderName">Nome</th>
-                                <th class="moviesAmount">Filmes</th>
+                                <th class="userId">Id</th>
+                                <th class="userName">Nome</th>
+                                <th class="userEmail">Email</th>
+                                <th class="profilesAmount">Perfis</th>
                                 <th class="action">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <% genresWithCount.forEach(gender => { %>
+                            <% usersWithProfileCount.forEach(user => { %>
                                 <tr>
-                                    <td class="firstTd"><%= gender.genderId %></td>
-                                    <td class="secondTd"><%= gender.genderName %></td>
-                                    <td class="thirdTd"><%= gender.moviesAmount %></td>
-                                    <td class="fourthTd">
+                                    <td class="firstTd"><%= user.userId %></td>
+                                    <td class="secondTd"><%= user.userName %></td>
+                                    <td class="thirdTd"><%= user.userEmail %></td>
+                                    <td class="fourthTd"><%= user.profilesAmount %></td>
+                                    <td class="fifthTd">
                                         <div class="actionButtons">
-                                            <a href="/admin/updategender/<%= gender.genderId %>">
+                                            <a href="">
                                                 <img src="/images/edit.png" alt="Editar" class="editButton">
                                             </a>
                                             
-                                            <a href="/admin/deletegender/<%= gender.genderId %>" onclick="return confirm('Deseja mesmo deletar o gênero?');">
+                                            <a href="" onclick="return confirm('Deseja mesmo deletar o usuário?');">
                                                 <img src="/images/delete.png" alt="Excluir" class="removeButton">
                                             </a>
                                         </div>

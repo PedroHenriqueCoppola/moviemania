@@ -84,8 +84,6 @@ router.get('/movies', verifyLogin, async function(req, res) {
 router.get('/newmovie', verifyLogin, async function(req, res) {
     const genres = await global.banco.searchGenres();
 
-    console.log("generos: "+JSON.stringify(genres));
-
     res.render('admin/newmovie', {
         allGenres: genres
     });
@@ -102,6 +100,20 @@ router.get('/deletemovie/:id', async function(req, res) {
     } catch (error) {
         console.error("Erro ao excluir filme:", error);
         return res.redirect('/admin/movies');
+    }
+});
+
+/* GET users */
+router.get('/users', verifyLogin, async function(req, res) {
+    const usersWithProfileCount = await global.banco.getUsersWithProfileCount();
+
+    try {
+        res.render('admin/users', {
+            admNome: global.adminName,
+            usersWithProfileCount: usersWithProfileCount
+        });
+    } catch (error) {
+        console.error(error);
     }
 });
 
