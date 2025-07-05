@@ -117,7 +117,7 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 3rem;
-    width: 88rem;
+    width: 95rem;
 }
 
 .usersTitle {
@@ -169,7 +169,7 @@ body {
 .userId {
     border-top: none;
     border-left: none;
-    width: 10%;
+    width: 8%;
 }
 
 .userName {
@@ -191,13 +191,20 @@ body {
     border-top: none;
     border-left: 1px solid var(--soft-white);
     border-right: 1px solid var(--soft-white);
+    width: 9%;
+}
+
+.permission {
+    border-top: none;
+    border-left: 1px solid var(--soft-white);
+    border-right: 1px solid var(--soft-white);
     width: 12%;
 }
 
 .action {
     border-top: none;
     border-right: none;
-    width: 15%;
+    width: 12%;
 }
 
 .action {
@@ -231,23 +238,27 @@ td {
 
 .fifthTd {
     text-align: center;
+}
+
+.sixthTd {
+    text-align: center;
     border-right: none;
 }
 
-.fifthTd > .actionButtons {
+.sixthTd > .actionButtons {
     display: flex;
     gap: 1.5rem;
     align-items: center;
     justify-content: center;
 }
 
-.fifthTd > .actionButtons > button {
+.sixthTd > .actionButtons > button {
     background: none;
     border: none;
     transition: opacity linear .2s;
 }
 
-.fifthTd > .actionButtons > button:hover {
+.sixthTd > .actionButtons > button:hover {
     cursor: pointer;
     opacity: .7;
 }

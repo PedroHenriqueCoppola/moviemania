@@ -117,6 +117,13 @@ router.get('/users', verifyLogin, async function(req, res) {
     }
 });
 
+/* GET newuser */
+router.get('/newuser', verifyLogin, async function(req, res) {
+    // const genres = await global.banco.searchGenres();
+
+    res.render('admin/newuser');
+});
+
 // rota a ser criada: logout do admin
 // router.get('/logout', function(req, res){
 //     global.isAdminLoggedIn = false;

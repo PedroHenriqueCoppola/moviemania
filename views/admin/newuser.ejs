@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Usuários</title>
+        <link rel="stylesheet" href="/stylesheets/admin/newuser.css" />
+    </head>
+    <body>
+        <div class="app">
+            <div class="header">
+                <img src="/images/logo.png" alt="logo">
+                <h1>MovieMania</h1>
+            </div>
+
+            <div class="newUser">
+                <h2>Novo usuário</h2>
+    
+                <form action="/admin/newuser" method="POST">
+                    <div class="inputContainer">
+                        <div class="nameInput">
+                            <input type="text" required id="name" name="name" autocomplete="off">
+                            <label class="labelline" for="name">Nome</label>
+                        </div>
+
+                        <div class="emailInput">
+                            <input type="text" required id="email" name="email" autocomplete="off">
+                            <label class="labelline" for="email">Email</label>
+                        </div>
+
+                        <div class="passwordInput">
+                            <input type="password" required id="password" name="password" autocomplete="off">
+                            <label class="labelline" for="password">Senha</label>
+                        </div>
+
+                        <div class="phoneInput">
+                            <input type="text" required id="phone" name="phone" autocomplete="off">
+                            <label class="labelline" for="phone">Telefone</label>
+                        </div>
+
+                        <div class="adminSelect">
+                            <select name="admin" id="admin">
+                                <option value="" disabled selected>Tipo de permissão</option>
+                                <option value="yes">Admin</option>
+                                <option value="no">Usuário</option>
+                            </select>
+                        </div>
+
+                        <div class="actionsButtons">
+                            <button class="cancelButton" type="button" onclick="window.history.back()">Voltar</button>
+    
+                            <button class="submitButton" type="submit">Adicionar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const adminSelect = document.getElementById('admin');
+        
+                function updateSelectValidationStyle() {
+                    if (adminSelect.value !== "") {
+                        adminSelect.classList.add('selected-and-valid');
+                    } else {
+                        adminSelect.classList.remove('selected-and-valid');
+                    }
+                }
+
+                adminSelect.addEventListener('change', updateSelectValidationStyle);
+                updateSelectValidationStyle();
+            });
+        </script>
+    </body>
+</html>

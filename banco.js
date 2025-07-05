@@ -219,7 +219,8 @@ async function getUsersWithProfileCount() {
                     userId: user.userid,
                     userName: user.username,
                     userEmail: user.useremail,
-                    profilesAmount: amount
+                    profilesAmount: amount,
+                    permission: user.fgadmin
                 };
             })
         );
