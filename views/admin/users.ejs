@@ -64,7 +64,7 @@
                                                 <img src="/images/edit.png" alt="Editar" class="editButton">
                                             </a>
                                             
-                                            <a href="" onclick="return confirm('Deseja mesmo deletar o usuário?');">
+                                            <a href="/admin/deleteuser/<%= user.userId %>" onclick="return confirm('Deseja mesmo deletar o usuário? Esta ação também deletará os perfis do usuário.');">
                                                 <img src="/images/delete.png" alt="Excluir" class="removeButton">
                                             </a>
                                         </div>

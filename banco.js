@@ -77,6 +77,18 @@ async function deleteMovie(movieid) {
     await conn.query(sql, [movieid]);
 }
 
+async function deleteUser(userid) {
+    const conn = await connDB();
+    const sql = "DELETE FROM users WHERE userid=?";
+    await conn.query(sql, [userid]);
+}
+
+async function deleteProfiles(userid) {
+    const conn = await connDB();
+    const sql = "DELETE FROM profiles WHERE id_user=?";
+    await conn.query(sql, [userid]);
+}
+
 // ===========================
 // UPDATE - QUERIES 
 // ===========================
@@ -244,6 +256,8 @@ module.exports = {
     insertUserByAdminPage,
     deleteGender,
     deleteMovie,
+    deleteUser,
+    deleteProfiles,
     updateGender,
     searchUsers,
     searchUserById,

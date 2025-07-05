@@ -119,9 +119,25 @@ router.get('/users', verifyLogin, async function(req, res) {
 
 /* GET newuser */
 router.get('/newuser', verifyLogin, async function(req, res) {
-    // const genres = await global.banco.searchGenres();
-
     res.render('admin/newuser');
+});
+
+/* GET delete user */
+router.get('/deleteuser/:id', async function(req, res) {
+    const userid = req.params.id;
+    const profilesAmount = await global.banco.getAmountOfProfilesByUser(userid);
+
+    try {
+        if (profilesAmount > 0) {
+            await global.banco.deleteProfiles(userid)
+        }
+
+        await global.banco.deleteUser(userid);
+        return res.redirect('/admin/users');
+    } catch (error) {
+        console.error("Erro ao excluir usuário:", error);
+        return res.redirect('/admin/users');
+    }
 });
 
 // rota a ser criada: logout do admin
