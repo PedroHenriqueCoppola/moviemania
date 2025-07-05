@@ -55,6 +55,12 @@ async function insertNewGender(gendername) {
     await conn.query(sql, [gendername]);
 }
 
+async function insertUserByAdminPage(name, email, password, phone, fgadmin) {
+    const conn = await connDB();
+    const sql = 'INSERT INTO users (username, useremail, userpassword, userphone, fgadmin) VALUES (?, ?, ?, ?, ?);';
+    await conn.query(sql, [name, email, password, phone, fgadmin]);
+}
+
 // ===========================
 // DELETE - QUERIES 
 // ===========================
@@ -232,13 +238,14 @@ async function getUsersWithProfileCount() {
 }
 
 module.exports = {
-    searchUsers,
     insertUserInformations,
     insertProfiles,
     insertNewGender,
+    insertUserByAdminPage,
     deleteGender,
     deleteMovie,
     updateGender,
+    searchUsers,
     searchUserById,
     searchUserByEmail,
     verifyUserExistence,

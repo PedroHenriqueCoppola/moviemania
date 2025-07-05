@@ -191,6 +191,32 @@ router.post('/updategender', async function(req, res) {
     }
 });
 
+// movie aqui
+
+/* POST newuser */
+router.post('/newuser', async function(req, res) {
+    const username = req.body.name;
+    const useremail = req.body.email;
+    const password = req.body.password;
+    const userphone = req.body.phone;
+    let permission = req.body.admin;
+
+    const user = await global.banco.searchUserByEmail(useremail);
+
+    if (user == null) {
+        try {
+            // Verificação da permissão de admin do usuário (0 = user, 1 = admin)
+            permission = (permission === "no") ? 0 : 1;
+
+            await global.banco.insertUserByAdminPage(username, useremail, password, userphone, permission);
+            res.redirect('/admin/users');
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('Erro interno ao inserir novo usuário.');
+        }
+    }
+});
+
 // =========================================
 // FUNÇÕES DE SEGURANÇA (MIDDLEWARE)
 // =========================================
