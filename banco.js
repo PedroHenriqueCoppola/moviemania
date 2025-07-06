@@ -61,6 +61,25 @@ async function insertUserByAdminPage(name, email, password, phone, fgadmin) {
     await conn.query(sql, [name, email, password, phone, fgadmin]);
 }
 
+async function insertNewMovie(title, desc, durationInSeconds, releaseDate, imagePath) {
+    const conn = await connDB();
+    const sql = `
+        INSERT INTO movies (movietitle, moviedesc, movietime, dtrelease, movieimage)
+        VALUES (?, ?, ?, ?, ?);
+    `;
+    const [result] = await conn.query(sql, [title, desc, durationInSeconds, releaseDate, imagePath]);
+    return result.insertId;
+}
+
+async function insertMovieGenre(movieId, genderId) {
+    const conn = await connDB();
+    const sql = `
+        INSERT INTO movie_gender (id_movie, id_gender)
+        VALUES (?, ?);
+    `;
+    await conn.query(sql, [movieId, genderId]);
+}
+
 // ===========================
 // DELETE - QUERIES 
 // ===========================
@@ -327,6 +346,8 @@ module.exports = {
     insertProfiles,
     insertNewGender,
     insertUserByAdminPage,
+    insertNewMovie,
+    insertMovieGenre,
     deleteGender,
     deleteMovie,
     deleteUser,

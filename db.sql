@@ -30,7 +30,6 @@ CREATE TABLE movies (
     movieid INT AUTO_INCREMENT PRIMARY KEY,
     movietitle VARCHAR(255) NOT NULL,
     moviedesc TEXT,
-    moviedirector VARCHAR(255),
     movietime INT,
     dtrelease DATE,
     movieimage VARCHAR(255) 

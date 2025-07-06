@@ -40,10 +40,10 @@ body {
 }
 
 .app {
-    margin-top: 8rem;
+    margin-top: 7rem;
     display: flex;
     flex-direction: column;
-    gap: 8rem;
+    gap: 7rem;
 }
 
 .header {
@@ -94,6 +94,10 @@ body {
     line-height: 4rem;
 }
 
+.imageInput {
+    margin-bottom: 2rem;
+}
+
 input {
     position: absolute;
     outline: none;
@@ -107,6 +111,10 @@ input {
     background-color: var(--black);
     z-index: 1;
     width: 100%;
+}
+
+.imageInput > input {
+    line-height: 6rem;
 }
 
 .labelline {

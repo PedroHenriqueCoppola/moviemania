@@ -17,7 +17,7 @@
             <div class="newMovie">
                 <h2>Novo filme</h2>
     
-                <form action="/admin/newmovie" method="POST">
+                <form action="/admin/newmovie" method="POST" enctype="multipart/form-data">
                     <div class="inputContainer">
                         <div class="titleInput">
                             <input type="text" required id="title" name="title" autocomplete="off">
@@ -39,8 +39,8 @@
                         </div>
 
                         <div class="imageInput">
-                            <input type="text" required id="image" name="image" autocomplete="off">
-                            <label class="labelline" for="image">Imagem - Upload</label>
+                            <input type="file" id="image" name="image" autocomplete="off" accept="image/*">
+                            <label class="labelline" for="image">Capa do filme</label>
                         </div>
 
                         <div class="dateInput">

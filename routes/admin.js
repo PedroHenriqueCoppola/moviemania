@@ -1,5 +1,34 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+
+// ======================
+// CONFIGURAÇÕES 
+// ======================
+
+// Configuração de armazenamento
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'public/uploads'); // pasta onde as imagens serão salvas
+    },
+    filename: function(req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname)); // ex: 1625468791234.jpg
+    }
+});
+
+const upload = multer({ 
+    storage: storage,
+    fileFilter: function(req, file, cb) {
+        // Permitir apenas arquivos jpg
+        if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+            cb(null, true);
+        } else {
+            cb(new Error('Somente arquivos JPG são permitidos.'), false);
+        }
+    }
+});
 
 // =================
 // ROTAS GET 
@@ -261,7 +290,38 @@ router.post('/updategender', async function(req, res) {
     }
 });
 
-// movie aqui
+/* POST newmovie */
+router.post('/newmovie', upload.single('image'), async function(req, res) {
+    try {
+        const { title, desc, gender, date, duration } = req.body;
+        const image = req.file;
+
+        if (!image) {
+            return res.status(400).send('Imagem é obrigatória.');
+        }
+
+        // Validação do formato da duração
+        const durationRegex = /^\d{2}:\d{2}:\d{2}$/;
+        if (!durationRegex.test(duration)) {
+            return res.status(400).send('Formato de duração inválido. Use HH:MM:SS.');
+        }
+
+        const [hours, minutes, seconds] = duration.split(':').map(Number);
+        if (isNaN(hours) || isNaN(minutes) || isNaN(seconds) || minutes > 59 || seconds > 59) {
+            return res.status(400).send('Duração inválida.');
+        }
+
+        const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
+        // Inserts
+        const movieId = await global.banco.insertNewMovie(title, desc, totalSeconds, date, '/uploads/' + image.filename);
+        await global.banco.insertMovieGenre(movieId, parseInt(gender));
+
+        res.redirect('/admin/movies');
+    } catch (error) {
+        console.error('Erro ao adicionar novo filme:', error);
+    }
+});
 
 /* POST newuser */
 router.post('/newuser', async function(req, res) {
