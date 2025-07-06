@@ -100,7 +100,7 @@ router.post('/passwordlogon/:email', async function(req, res, next){
     const useremail = req.params.email;
     const username = req.body.newUsername;
     const userpassword = req.body.newPassword;
-    const userphone = req.body.newPhone;
+    const userphone = req.body.phone;
 
     if (username && userpassword && userphone) {
         try {
