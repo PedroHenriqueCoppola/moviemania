@@ -140,6 +140,47 @@ router.get('/deleteuser/:id', async function(req, res) {
     }
 });
 
+/* GET updateuser */
+router.get('/updateuser/:id', verifyLogin, async function(req, res) {
+    const userid = req.params.id;
+    let userName = '';
+    let userEmail = '';
+    let fgAdmin = 0;
+    let profilesList = [];
+    let profilesAmount = 0;
+
+    try {
+        const userDetails = await global.banco.searchUserById(userid); 
+        if (!userDetails) {
+            return res.status(404).send('Usuário não encontrado.');
+        }
+        userName = userDetails.username;
+        userEmail = userDetails.useremail;
+        fgAdmin = userDetails.fgadmin;
+
+        const userInfoResults = await global.banco.getUserAndProfileInfo(userid);
+        
+        if (userInfoResults && userInfoResults.length > 0 && userInfoResults[0].profileid !== null) {
+            profilesList = userInfoResults.map(row => ({
+                profileid: row.profileid,
+                profilename: row.profilename
+            }));
+            profilesAmount = profilesList.length;
+        }
+
+        res.render('admin/updateuser', {
+            userId: userid,
+            userName: userName,
+            userEmail: userEmail,
+            userInfo: profilesList,
+            fgAdmin: fgAdmin,
+            profilesAmount: profilesAmount
+        });
+    } catch (error) {
+        console.error("Erro ao buscar informações para o formulário de edição: ", error);
+    }
+});
+
 // rota a ser criada: logout do admin
 // router.get('/logout', function(req, res){
 //     global.isAdminLoggedIn = false;
@@ -230,6 +271,34 @@ router.post('/newuser', async function(req, res) {
             console.error(err);
             res.status(500).send('Erro interno ao inserir novo usuário.');
         }
+    }
+});
+
+/* POST updateuser */
+router.post('/updateuser', verifyLogin, async function(req, res) {
+    const { userid, name, profilename, profileid } = req.body;
+
+    const receivedProfileNames = Array.isArray(profilename) ? profilename : (profilename ? [profilename] : []);
+    const receivedProfileIds = Array.isArray(profileid) ? profileid : (profileid ? [profileid] : []);
+
+    let profilesToProcess = [];
+
+    // Pega os perfis existentes
+    for (let i = 0; i < receivedProfileNames.length; i++) {
+        if (receivedProfileIds[i] && receivedProfileNames[i] && receivedProfileNames[i].trim() !== '') {
+            profilesToProcess.push({
+                profileid: parseInt(receivedProfileIds[i]),
+                profilename: receivedProfileNames[i]
+            });
+        }
+    }
+
+    try {
+        await global.banco.updateExistingUserAndProfiles(parseInt(userid), name, profilesToProcess);
+
+        res.redirect('/admin/users');
+    } catch (error) {
+        console.error('Erro ao processar atualização do usuário e perfis:', error.message);
     }
 });
 

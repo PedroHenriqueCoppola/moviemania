@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Usuários</title>
+        <link rel="stylesheet" href="/stylesheets/admin/updateuser.css" />
+    </head>
+    <body>
+        <div class="app">
+            <div class="header">
+                <img src="/images/logo.png" alt="logo">
+                <h1>MovieMania</h1>
+            </div>
+
+            <div class="updateUser">
+                <h2>Editar usuário</h2>
+
+                <h4>Usuário atual: <span class="name"><%= userName %></span></h4>
+
+                <h4>Email: <span class="email"><%= userEmail %></span></h4>
+
+                <form action="/admin/updateuser" method="POST">
+                    <input type="hidden" name="userid" value="<%= userId %>">
+
+                    <div class="inputContainer">
+                        <div class="nameInput">
+                            <input type="text" required id="name" name="name" autocomplete="off" value="<%= userName %>">
+                            <label class="labelline" for="name">Usuário</label>
+                        </div>
+
+                        <% if (fgAdmin == 0) { %>
+                            <% if (userInfo && userInfo.length > 0 && profilesAmount > 0) { %>
+                                <% userInfo.forEach(profile => { %>
+                                    <div class="profileInput">
+                                        <input type="hidden" name="profileid" value="<%= profile.profileid %>">
+                                        <input type="text" required id="profile_<%= profile.profileid %>" name="profilename" autocomplete="off" value="<%= profile.profilename %>">
+                                        <label class="labelline" for="profile_<%= profile.profileid %>">Perfil</label>
+                                    </div>
+                                <% }) %>
+                            <% } %>
+                        <% } %>
+
+                        <div class="actionsButtons">
+                            <button class="cancelButton" type="button" onclick="window.history.back()">Voltar</button>
+    
+                            <button class="submitButton" type="submit">Atualizar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

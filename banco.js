@@ -99,6 +99,35 @@ async function updateGender(gendername, genderid) {
     await conn.query(sql, [gendername, genderid]);
 }
 
+async function updateExistingUserAndProfiles(userId, newUserName, profilesToUpdate) {
+    try {
+        let conn = await connDB();
+
+        // Atualizar usuário
+        const userUpdateSql = `
+            UPDATE users
+            SET username = ?
+            WHERE userid = ?;
+        `;
+        await conn.query(userUpdateSql, [newUserName, userId]);
+
+        // Atualizar perfis
+        if (profilesToUpdate && profilesToUpdate.length > 0) {
+            for (const profile of profilesToUpdate) {
+                const profileUpdateSql = `
+                    UPDATE profiles
+                    SET profilename = ?
+                    WHERE profileid = ? AND id_user = ?;
+                `;
+                await conn.query(profileUpdateSql, [profile.profilename, profile.profileid, userId]);
+            }
+        }
+    } catch (error) {
+        console.error('Erro ao atualizar usuário e perfis:', error);
+        throw error;
+    }
+}
+
 // ===========================
 // SELECT - QUERIES 
 // ===========================
@@ -249,6 +278,27 @@ async function getUsersWithProfileCount() {
     }
 }
 
+async function getUserAndProfileInfo(userid) {
+    const conn = await connDB();
+    const sql = `
+        SELECT 
+            u.userid,
+            u.username,
+            u.useremail,
+            u.fgadmin,
+            p.profileid,
+            p.profilename
+        FROM 
+            users u
+        LEFT JOIN profiles p 
+            ON u.userid = p.id_user
+        WHERE 
+            u.userid=?
+    `;
+    const [results] = await conn.query(sql, [userid]);
+    return results;
+}
+
 module.exports = {
     insertUserInformations,
     insertProfiles,
@@ -259,6 +309,7 @@ module.exports = {
     deleteUser,
     deleteProfiles,
     updateGender,
+    updateExistingUserAndProfiles,
     searchUsers,
     searchUserById,
     searchUserByEmail,
@@ -270,5 +321,6 @@ module.exports = {
     getGenderById,
     searchMovies,
     getAmountOfProfilesByUser,
-    getUsersWithProfileCount
+    getUsersWithProfileCount,
+    getUserAndProfileInfo
 }
