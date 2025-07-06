@@ -49,7 +49,7 @@
                         </div>
 
                         <div class="durationInput">
-                            <input type="time" id="duration" name="duration" required autocomplete="off">
+                            <input type="text" id="duration" name="duration" required autocomplete="off">
                             <label class="labelline" for="duration">Duração (HH:MM:SS)</label>
                         </div>
 
@@ -63,21 +63,6 @@
             </div>
         </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const genderSelect = document.getElementById('gender');
-        
-                function updateSelectValidationStyle() {
-                    if (genderSelect.value !== "") {
-                        genderSelect.classList.add('selected-and-valid');
-                    } else {
-                        genderSelect.classList.remove('selected-and-valid');
-                    }
-                }
-
-                genderSelect.addEventListener('change', updateSelectValidationStyle);
-                updateSelectValidationStyle();
-            });
-        </script>
+        <script src="/scripts/newmovie.js"></script>
     </body>
 </html>
