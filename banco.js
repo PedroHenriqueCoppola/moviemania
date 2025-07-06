@@ -299,6 +299,29 @@ async function getUserAndProfileInfo(userid) {
     return results;
 }
 
+async function getBestRatings() {
+    const conn = await connDB();
+    const sql = `
+            SELECT
+                r.ratingid,
+                r.id_user,
+                r.id_movie,
+                r.ratingscore,
+                r.ratingcomment,
+                m.movietitle
+            FROM
+                ratings r
+            INNER JOIN movies m 
+                ON r.id_movie = m.movieid
+            ORDER BY
+                r.ratingscore DESC
+            LIMIT 5;
+        `;
+    const [result] = await conn.query(sql);
+
+    return result.length > 0 ? result : false;
+}
+
 module.exports = {
     insertUserInformations,
     insertProfiles,
@@ -322,5 +345,6 @@ module.exports = {
     searchMovies,
     getAmountOfProfilesByUser,
     getUsersWithProfileCount,
-    getUserAndProfileInfo
+    getUserAndProfileInfo,
+    getBestRatings
 }

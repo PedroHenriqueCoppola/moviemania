@@ -181,6 +181,19 @@ router.get('/updateuser/:id', verifyLogin, async function(req, res) {
     }
 });
 
+/* GET statistics */
+router.get('/statistics', verifyLogin, async function(req, res) {
+    const ratings = await global.banco.getBestRatings();
+
+    try {
+        res.render('admin/statistics', {
+            ratings: ratings
+        });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 // rota a ser criada: logout do admin
 // router.get('/logout', function(req, res){
 //     global.isAdminLoggedIn = false;

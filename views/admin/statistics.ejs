@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Estatísticas</title>
+        <link rel="stylesheet" href="/stylesheets/admin/statistics.css" />
+    </head>
+    <body>
+        <div class="app">
+            <div class="header">
+                <div class="headerContent">
+                    <div class="title">
+                        <img src="/images/logo.png" alt="logo">
+                        <h1>MovieMania</h1>
+                    </div>
+        
+                    <h2>Dashboard Administrativo</h2>
+                </div>
+
+                <div class="headerMenus">
+                    <div class="menus">
+                        <a href="" class="picked">Estatísticas</a>
+                        <a href="/admin/users">Usuários</a>
+                        <a href="/admin/genres">Gêneros</a>
+                        <a href="/admin/movies">Filmes</a>
+                    </div>
+
+                    <div class="line"></div>
+                </div>
+            </div>
+
+            <div class="statistics">
+                <div class="statisticsTitle">
+                    <h2>Estatísticas</h2>
+
+                    <div class="line"></div>
+                </div>
+
+                <div class="bestRatings">
+                    <h3>Filmes com as <span class="contrast">melhores</span> avaliações:</h3>
+
+                    <div class="ranking">
+                        <% if (ratings && ratings.length > 0) { %>
+                            <% ratings.forEach((rating, index) => { %>
+                                <div class="rankingItem <%= index === 0 ? 'first' : (index === 1 ? 'second' : (index === 2 ? 'third' : (index === 3 ? 'fourth' : 'fifth'))) %>">
+                                    <h4><%= index + 1 %>º:</h4>
+                                    <p><%= rating.movietitle %> - <span class="contrast"><%= rating.ratingscore %></span></p>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <p class="noMovie">Nenhum filme foi avaliado ainda.</p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
