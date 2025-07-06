@@ -92,8 +92,12 @@ async function deleteGender(genderid) {
 
 async function deleteMovie(movieid) {
     const conn = await connDB();
-    const sql = "DELETE FROM movies WHERE movieid=?";
-    await conn.query(sql, [movieid]);
+
+    const sqlDeleteRelations = "DELETE FROM movie_gender WHERE id_movie = ?";
+    await conn.query(sqlDeleteRelations, [movieid]);
+
+    const sqlDeleteMovie = "DELETE FROM movies WHERE movieid = ?";
+    await conn.query(sqlDeleteMovie, [movieid]);
 }
 
 async function deleteUser(userid) {
