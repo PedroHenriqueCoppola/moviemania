@@ -132,6 +132,40 @@ router.get('/deletemovie/:id', async function(req, res) {
     }
 });
 
+/* GET updatemovie */
+router.get('/updatemovie/:id', verifyLogin, async function(req, res) {
+    const movieid = req.params.id;
+
+    try {
+        const movie = await global.banco.searchMovieById(movieid);
+        const genres = await global.banco.searchGenres();
+
+        if (!movie) {
+            return res.status(404).send('Filme não encontrado.');
+        }
+
+        // Segundos para HH:MM:SS
+        const hours = String(Math.floor(movie.movietime / 3600)).padStart(2, '0');
+        const minutes = String(Math.floor((movie.movietime % 3600) / 60)).padStart(2, '0');
+        const seconds = String(movie.movietime % 60).padStart(2, '0');
+        const duration = `${hours}:${minutes}:${seconds}`;
+
+        res.render('admin/updatemovie', {
+            movieId: movie.movieid,
+            movieTitle: movie.movietitle,
+            movieDesc: movie.moviedesc,
+            movieDate: movie.dtrelease.toISOString().split('T')[0], // formato yyyy-mm-dd
+            movieImage: movie.movieimage,
+            movieDuration: duration,
+            movieGenreId: movie.id_gender,
+            allGenres: genres
+        });
+    } catch (error) {
+        console.error('Erro ao carregar filme:', error);
+        res.status(500).send('Erro ao carregar filme.');
+    }
+});
+
 /* GET users */
 router.get('/users', verifyLogin, async function(req, res) {
     const usersWithProfileCount = await global.banco.getUsersWithProfileCount();
@@ -320,6 +354,37 @@ router.post('/newmovie', upload.single('image'), async function(req, res) {
         res.redirect('/admin/movies');
     } catch (error) {
         console.error('Erro ao adicionar novo filme:', error);
+    }
+});
+
+/* POST updatemovie */
+router.post('/updatemovie/:id', upload.single('image'), async function(req, res) {
+    const movieid = req.params.id;
+    const { name, desc, gender, date, duration } = req.body;
+    const image = req.file;
+
+    try {
+        // Validação da duração
+        const durationRegex = /^\d{2}:\d{2}:\d{2}$/;
+        if (!durationRegex.test(duration)) {
+            return res.status(400).send('Formato de duração inválido. Use HH:MM:SS.');
+        }
+
+        const [hours, minutes, seconds] = duration.split(':').map(Number);
+        if (isNaN(hours) || isNaN(minutes) || isNaN(seconds) || minutes > 59 || seconds > 59) {
+            return res.status(400).send('Duração inválida.');
+        }
+
+        const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
+        // Inserts
+        await global.banco.updateMovie(movieid, name, desc, totalSeconds, date, image ? '/uploads/' + image.filename : null);
+        await global.banco.updateMovieGender(movieid, parseInt(gender));
+
+        res.redirect('/admin/movies');
+    } catch (error) {
+        console.error('Erro ao atualizar filme:', error);
+        res.status(500).send('Erro ao atualizar filme.');
     }
 });
 

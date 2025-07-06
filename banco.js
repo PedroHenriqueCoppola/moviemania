@@ -151,6 +151,39 @@ async function updateExistingUserAndProfiles(userId, newUserName, profilesToUpda
     }
 }
 
+async function updateMovie(movieid, title, desc, durationInSeconds, releaseDate, imagePath) {
+    const conn = await connDB();
+    let sql, params;
+
+    if (imagePath) {
+        sql = `
+            UPDATE movies
+            SET movietitle = ?, moviedesc = ?, movietime = ?, dtrelease = ?, movieimage = ?
+            WHERE movieid = ?;
+        `;
+        params = [title, desc, durationInSeconds, releaseDate, imagePath, movieid];
+    } else {
+        sql = `
+            UPDATE movies
+            SET movietitle = ?, moviedesc = ?, movietime = ?, dtrelease = ?
+            WHERE movieid = ?;
+        `;
+        params = [title, desc, durationInSeconds, releaseDate, movieid];
+    }
+
+    await conn.query(sql, params);
+}
+
+async function updateMovieGender(movieid, newGenderId) {
+    const conn = await connDB();
+    const sql = `
+        UPDATE movie_gender
+        SET id_gender = ?
+        WHERE id_movie = ?;
+    `;
+    await conn.query(sql, [newGenderId, movieid]);
+}
+
 // ===========================
 // SELECT - QUERIES 
 // ===========================
@@ -269,6 +302,29 @@ async function searchMovies() {
     return movies;
 }
 
+async function searchMovieById(movieid) {
+    const conn = await connDB();
+    const sql = `
+        SELECT 
+            m.movieid,
+            m.movietitle,
+            m.moviedesc,
+            m.movietime,
+            m.dtrelease,
+            m.movieimage,
+            mg.id_gender
+        FROM 
+            movies m
+        INNER JOIN movie_gender mg 
+            ON m.movieid = mg.id_movie
+        WHERE 
+            m.movieid = ?
+    `;
+    const [results] = await conn.query(sql, [movieid]);
+    
+    return results.length > 0 ? results[0] : null;
+}
+
 async function getAmountOfProfilesByUser(userid) {
     const conn = await connDB();
     const sql = "SELECT COUNT(*) AS total FROM profiles WHERE id_user=?";
@@ -358,6 +414,8 @@ module.exports = {
     deleteProfiles,
     updateGender,
     updateExistingUserAndProfiles,
+    updateMovie,
+    updateMovieGender,
     searchUsers,
     searchUserById,
     searchUserByEmail,
@@ -368,6 +426,7 @@ module.exports = {
     verifyGenderExistenceByName,
     getGenderById,
     searchMovies,
+    searchMovieById,
     getAmountOfProfilesByUser,
     getUsersWithProfileCount,
     getUserAndProfileInfo,

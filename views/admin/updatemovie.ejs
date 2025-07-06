@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>Filmes</title>
-        <link rel="stylesheet" href="/stylesheets/admin/newmovie.css" />
+        <link rel="stylesheet" href="/stylesheets/admin/updatemovie.css" />
     </head>
     <body>
         <div class="app">
@@ -14,55 +14,54 @@
                 <h1>MovieMania</h1>
             </div>
 
-            <div class="newMovie">
-                <h2>Novo filme</h2>
+            <div class="updateMovie">
+                <h2>Editar filme</h2>
     
-                <form action="/admin/newmovie" method="POST" enctype="multipart/form-data">
+                <form action="/admin/updatemovie/<%= movieId %>" method="POST" enctype="multipart/form-data">
                     <div class="inputContainer">
-                        <div class="titleInput">
-                            <input type="text" required id="title" name="title" autocomplete="off">
-                            <label class="labelline" for="title">Título</label>
+                        <div class="nameInput">
+                            <input type="text" required id="name" name="name" autocomplete="off" value="<%= movieTitle %>">
+                            <label class="labelline" for="name">Nome</label>
                         </div>
-
+                
                         <div class="descInput">
-                            <input type="text" required id="desc" name="desc" autocomplete="off">
+                            <input type="text" required id="desc" name="desc" autocomplete="off" value="<%= movieDesc %>">
                             <label class="labelline" for="desc">Descrição</label>
                         </div>
-
+                
                         <div class="genderSelect">
                             <select name="gender" id="gender" required>
-                                <option value="" disabled selected>Selecione um gênero</option>
+                                <option value="" disabled>Selecione um gênero</option>
                                 <% allGenres.forEach(gender => { %>
-                                    <option value="<%= gender.genderid %>"><%= gender.gendername %></option>
+                                    <option value="<%= gender.genderid %>" <%= gender.genderid === movieGenreId ? 'selected' : '' %>><%= gender.gendername %></option>
                                 <% }) %>
                             </select>
                         </div>
-
+                
                         <div class="imageInput">
-                            <input type="file" id="image" name="image" autocomplete="off" accept="image/*">
+                            <input type="file" id="image" name="image" autocomplete="off" accept="image/jpeg">
                             <label class="labelline" for="image">Capa do filme</label>
                         </div>
-
+                
                         <div class="dateInput">
-                            <input type="date" required id="date" name="date" autocomplete="off">
+                            <input type="date" required id="date" name="date" autocomplete="off" value="<%= movieDate %>">
                             <label class="labelline" for="date">Data de lançamento</label>
                         </div>
-
+                
                         <div class="durationInput">
-                            <input type="text" id="duration" name="duration" required autocomplete="off">
+                            <input type="text" id="duration" name="duration" required autocomplete="off" value="<%= movieDuration %>">
                             <label class="labelline" for="duration">Duração (HH:MM:SS)</label>
                         </div>
-
+                
                         <div class="actionsButtons">
                             <button class="cancelButton" type="button" onclick="window.history.back()">Voltar</button>
-    
-                            <button class="submitButton" type="submit">Adicionar</button>
+                            <button class="submitButton" type="submit">Atualizar</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-
+        
         <script src="/scripts/movie.js"></script>
     </body>
 </html>
