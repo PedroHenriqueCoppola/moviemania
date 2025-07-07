@@ -3,9 +3,38 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><%= title %></title>
+
+        <title>Perfis</title>
+        <link rel="stylesheet" href="/stylesheets/users.css" />
     </head>
     <body>
-        <p><%= title %></p>
+        <div class="app">
+            <div class="header">
+                <img src="/images/logo.png" alt="logo">
+                <h1>MovieMania</h1>
+            </div>
+
+            <div class="profilesDiv">
+                <div class="intro">
+                    <h2>Bem-vindo(a) de volta, <span class="contrast"><%= userName %></span>!</h2>
+                    <h3>Escolha um perfil</h2>
+                </div>
+
+                <div class="profiles">
+                    <% if (profiles.length > 0) { %>
+                        <% profiles.forEach((profile, i) => { %>
+                            <div class="profile">
+                                <a href="/home/<%= profile.id %>">
+                                    <img src="/images/user<%= i + 1 %>.jpg" alt="Foto de <%= profile.name %>">
+                                    <h3><%= profile.name %></h3>
+                                </a>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p>Nenhum perfil encontrado.</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

@@ -49,17 +49,60 @@ router.get('/userslogon/:id', async function(req, res, next) {
 });
 
 /* GET perfis */
-router.get('/users', async function(req, res, next) {
-    // garante o acesso a usuarios registrados
-    if (!verifyLogin(res)) {
-        return;
+router.get('/users', verifyLogin, async function(req, res, next) {
+    try {
+        const userId = global.loggedInUserId;
+        const userAndProfiles = await global.banco.getUserAndProfileInfo(userId);
+
+        if (userAndProfiles.length > 0) {
+            const userName = userAndProfiles[0].username;
+
+            // Cria um array com os perfis
+            const profiles = userAndProfiles
+                .filter(profile => profile.profileid !== null)
+                .map(profile => ({
+                    id: profile.profileid,
+                    name: profile.profilename
+                }));
+
+            res.render('users', {
+                userName: userName,
+                profiles: profiles
+            });
+        } else {
+            res.render('users', {
+                userName: "Usuário",
+                profiles: []
+            });
+        }
+    } catch (error) {
+        console.error('Erro ao carregar perfis:', error);
+        res.status(500).send('Erro ao carregar perfis.');
     }
+});
 
-    // carregar os perfis relacionados ao usuario logado
-    // const registroPerfis = await global.banco.buscarPerfis(global.usucodigo); -- FALTA FAZER
+/* GET home com perfil selecionado */
+router.get('/home/:profileid', verifyLogin, async function(req, res, next) {
+    const profileId = req.params.profileid;
 
-    // carrega a pagina de perfis para a escolha do perfil que vai assistir
-    res.render('users', {title : 'Escolha um perfil'});
+    try {
+        const selectedProfile = await global.banco.searchProfileInfoById(profileId);
+
+        if (selectedProfile) {
+            global.activeProfileId = selectedProfile.profileid;
+            global.activeProfileName = selectedProfile.profilename;
+
+            res.render('home', {
+                profileId: selectedProfile.profileid,
+                profileName: selectedProfile.profilename
+            });
+        } else {
+            res.redirect('/users');
+        }
+    } catch (err) {
+        console.error('Erro ao carregar o perfil selecionado:', err);
+        res.status(500).send('Erro ao carregar o perfil.');
+    }
 });
 
 // =================
@@ -104,10 +147,8 @@ router.post('/passwordlogon/:email', async function(req, res, next){
 
     if (username && userpassword && userphone) {
         try {
-            // INSERE O USUÁRIO COMPLETO DE UMA VEZ.
             const newUser = await global.banco.insertUserInformations(useremail, username, userpassword, userphone);
 
-            // Verifica se o usuário e o id foram criados corretamente.
             if (newUser && newUser.userid) {
                 res.redirect(`/userslogon/${newUser.userid}`);
             } else {
@@ -151,12 +192,12 @@ router.post('/userslogon/:id', async function(req, res, next){
 // ========================
 
 // Verifica o usuário está logado
-function verifyLogin(res) {
-    if (!global.loggedInUserId) {
+function verifyLogin(req, res, next) {
+    if (global.loggedInUserId) {
+        next();
+    } else {
         res.redirect('/');
-        return false;
     }
-    return true;
 }
 
 module.exports = router;

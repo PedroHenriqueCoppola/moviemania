@@ -401,6 +401,14 @@ async function getBestRatings() {
     return result.length > 0 ? result : false;
 }
 
+async function searchProfileInfoById(profileId) {
+    const conn = await connDB();
+    const sql = 'SELECT * FROM profiles WHERE profileid = ?';
+    const [result] = await conn.query(sql, [profileId]);
+
+    return result.length > 0 ? result[0] : false;
+}
+
 module.exports = {
     insertUserInformations,
     insertProfiles,
@@ -430,5 +438,6 @@ module.exports = {
     getAmountOfProfilesByUser,
     getUsersWithProfileCount,
     getUserAndProfileInfo,
-    getBestRatings
+    getBestRatings,
+    searchProfileInfoById
 }
