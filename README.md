@@ -13,7 +13,15 @@ Projeto desenvolvido durante a matéria Server-Side do curso de Engenharia de So
 <br>
 
 <p align="center">
-  <img alt="site preview" src="./assets/screenshot.png" width="100%">
+  <img alt="site preview" src="./assets/preview_one.png" width="100%">
+</p>
+
+<p align="center">
+  <img alt="site preview" src="./assets/preview_two.png" width="100%">
+</p>
+
+<p align="center">
+  <img alt="site preview" src="./assets/preview_three.png" width="100%">
 </p>
 
 > Server-Side

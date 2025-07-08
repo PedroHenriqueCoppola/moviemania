@@ -43,6 +43,7 @@ body {
     display: flex;
     flex-direction: column;
     max-width: 100%;
+    margin-bottom: 3rem;
 }
 
 .header {
@@ -165,36 +166,36 @@ body {
 .moviesRow {
     display: flex;
     gap: 2rem;
+    overflow-y: hidden;
     overflow-x: auto;
     scroll-behavior: smooth;
-    padding-bottom: 1rem;
-    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
 }
 
 .movieCard {
     position: relative;
-    transition: opacity linear .2s;
-}
-
-.movieCard:hover {
-    opacity: 0.7;
+    max-height: 21rem;
 }
 
 .movieCard h4 {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: fit-content;
 
     color: var(--white);
-    padding: 2rem 1.5rem;
+    padding: 1rem 1.5rem;
     font-size: 1.8rem;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
 }
 
 .movieCard > a > img {
     width: 40rem;
     border-radius: 10px;
+    transition: opacity linear .2s;
+}
+
+.movieCard > a > img:hover {
+    opacity: 0.7;
 }
 
 .allMovies {
