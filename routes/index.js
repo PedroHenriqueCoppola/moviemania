@@ -92,16 +92,40 @@ router.get('/home/:profileid', verifyLogin, async function(req, res, next) {
             global.activeProfileId = selectedProfile.profileid;
             global.activeProfileName = selectedProfile.profilename;
 
+            // Filmes por gênero
+            const genresWithMovies = await global.banco.getGenresWithMovies();
+
+            // Filmes "Assistir mais tarde"
+            const watchLaterMovies = await global.banco.getWatchLaterMoviesByUser(global.loggedInUserId);
+
             res.render('home', {
                 profileId: selectedProfile.profileid,
-                profileName: selectedProfile.profilename
+                profileName: selectedProfile.profilename,
+                genresWithMovies: genresWithMovies,
+                watchLaterMovies: watchLaterMovies
             });
         } else {
             res.redirect('/users');
         }
     } catch (err) {
-        console.error('Erro ao carregar o perfil selecionado:', err);
         res.status(500).send('Erro ao carregar o perfil.');
+    }
+});
+
+/* GET moviedetails */
+router.get('/moviedetails/:movieid', verifyLogin, async function(req, res, next) {
+    const movieId = req.params.movieid;
+
+    try {
+        const movie = await global.banco.searchMovieById(movieId);
+
+        if (movie) {
+            res.render('moviedetails', { movie: movie });
+        } else {
+            res.status(404).send('Filme não encontrado.');
+        }
+    } catch (err) {
+        res.status(500).send('Erro ao carregar o filme.');
     }
 });
 

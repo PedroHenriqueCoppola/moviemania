@@ -93,11 +93,26 @@ async function deleteGender(genderid) {
 async function deleteMovie(movieid) {
     const conn = await connDB();
 
-    const sqlDeleteRelations = "DELETE FROM movie_gender WHERE id_movie = ?";
-    await conn.query(sqlDeleteRelations, [movieid]);
+    try {
+        // Apagar avaliações
+        const sqlDeleteRatings = "DELETE FROM ratings WHERE id_movie = ?";
+        await conn.query(sqlDeleteRatings, [movieid]);
 
-    const sqlDeleteMovie = "DELETE FROM movies WHERE movieid = ?";
-    await conn.query(sqlDeleteMovie, [movieid]);
+        // Apagar relações com gêneros
+        const sqlDeleteMovieGender = "DELETE FROM movie_gender WHERE id_movie = ?";
+        await conn.query(sqlDeleteMovieGender, [movieid]);
+
+        // Apagar relações com listas
+        const sqlDeleteMovielist = "DELETE FROM movielist WHERE id_movie = ?";
+        await conn.query(sqlDeleteMovielist, [movieid]);
+
+        // PApagar o filme
+        const sqlDeleteMovie = "DELETE FROM movies WHERE movieid = ?";
+        await conn.query(sqlDeleteMovie, [movieid]);
+    } catch (error) {
+        console.error(`Erro ao deletar o filme ${movieid}:`, error);
+        throw error;
+    }
 }
 
 async function deleteUser(userid) {
@@ -409,6 +424,61 @@ async function searchProfileInfoById(profileId) {
     return result.length > 0 ? result[0] : false;
 }
 
+async function getMoviesByGenre(genderId) {
+    const conn = await connDB();
+    const sql = `
+        SELECT 
+            m.movieid,
+            m.movietitle,
+            m.movieimage
+        FROM
+            movies m
+        INNER JOIN movie_gender mg
+            ON m.movieid = mg.id_movie
+        WHERE
+            mg.id_gender = ?
+    `;
+    const [movies] = await conn.query(sql, [genderId]);
+    return movies;
+}
+
+async function getWatchLaterMoviesByUser(userId) {
+    const conn = await connDB();
+    const sql = `
+        SELECT
+            m.movieid,
+            m.movietitle,
+            m.movieimage
+        FROM
+            movielist ml
+        INNER JOIN lists l
+            ON ml.id_list = l.listid
+        INNER JOIN movies m
+            ON ml.id_movie = m.movieid
+        WHERE
+            l.id_user = ?
+            AND ml.towatchmovielist = 1
+    `;
+    const [movies] = await conn.query(sql, [userId]);
+    return movies;
+}
+
+async function getGenresWithMovies() {
+    const genres = await searchGenres();
+
+    const genresWithMovies = [];
+    for (const genre of genres) {
+        const movies = await getMoviesByGenre(genre.genderid);
+        if (movies.length > 0) {
+            genresWithMovies.push({
+                genreName: genre.gendername,
+                movies: movies
+            });
+        }
+    }
+    return genresWithMovies;
+}
+
 module.exports = {
     insertUserInformations,
     insertProfiles,
@@ -439,5 +509,8 @@ module.exports = {
     getUsersWithProfileCount,
     getUserAndProfileInfo,
     getBestRatings,
-    searchProfileInfoById
+    searchProfileInfoById,
+    getMoviesByGenre,
+    getWatchLaterMoviesByUser,
+    getGenresWithMovies
 }

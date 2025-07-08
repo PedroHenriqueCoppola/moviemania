@@ -10,7 +10,7 @@
     <body>
         <div class="app">
             <div class="header">
-                <div class="title">
+                <div class="title" onclick="window.location.href='/home/<%= profileId %>'" style="cursor: pointer;">
                     <img src="/images/logo.png" alt="logo">
                     <h1>MovieMania</h1>
                 </div>
@@ -23,8 +23,50 @@
 
             <div class="mainMovie">
                 <img class="mainImage" src="/images/main.jpg">
-                <h1>home</h1>
 
+                <div class="position">
+                    <h2 class="top">Top 2 - Brasil</h2>
+                    <h2 class="film">Meu Malvado Favorito 9</h2>
+                    <button class="infoButton">
+                        <img src="/images/info.png" alt="aaaaa">
+                        <p>Informações</p>
+                    </button>
+                </div>
+            </div>
+
+            <div class="allMovies">
+                <!-- Sessão por Gêneros -->
+                <% genresWithMovies.forEach(section => { %>
+                    <div class="section">
+                        <h2><%= section.genreName %></h2>
+                        <div class="moviesRow">
+                            <% section.movies.forEach(movie => { %>
+                                <div class="movieCard">
+                                    <a href="/moviedetails/<%= movie.movieid %>">
+                                        <img src="<%= movie.movieimage %>" alt="<%= movie.movietitle %>">
+                                        <h4><%= movie.movietitle %></h4>
+                                    </a>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                <% }) %>
+    
+                <% if (watchLaterMovies.length > 0) { %>
+                    <div class="section">
+                        <h2>Assistir mais tarde</h2>
+                        <div class="moviesRow">
+                            <% watchLaterMovies.forEach(movie => { %>
+                                <div class="movieCard">
+                                    <a href="/moviedetails/<%= movie.movieid %>">
+                                        <img src="<%= movie.movieimage %>" alt="<%= movie.movietitle %>">
+                                        <h4><%= movie.movietitle %></h4>
+                                    </a>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                <% } %>
             </div>
         </div>
     </body>
