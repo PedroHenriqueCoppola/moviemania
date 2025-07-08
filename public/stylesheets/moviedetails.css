@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+
+    font-family: "Open Sans", sans-serif;
+    user-select: none;
+}
+
+:root {
+    font-size: 62.5%;
+
+    --black: hsl(0, 0%, 0%);
+    --black-lighter:hsla(0, 0.00%, 0.00%, 0.20);
+    --white: hsla(0, 0%, 100%);
+    --soft-white: hsla(0, 0%, 100%, 0.5);
+    --gray-bg: hsl(0, 4%, 9%);
+    --gray-lighter: hsl(0, 1.90%, 58.00%);
+    --gray-button: hsl(0, 12.80%, 92.40%);
+    --gray-button-darker: hsl(0, 5.60%, 85.90%);
+    --input-border: hsla(0, 0%, 100%, 0.20);
+    --input-border-lighter: hsla(0, 0%, 100%, 0.30);
+    --red: hsl(0, 58%, 52%);
+    --red-lighter: hsl(0, 63%, 58%);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--black);
+}
+
+.app {
+    margin-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 7rem;
+    width: 115rem;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.header > h1 {
+    color: var(--white);
+    font-size: 2.8rem;
+}
+
+.header > img {
+    width: 4rem;
+}
+
+.movieInfos {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.mainInfos {
+    color: var(--white);
+    display: flex;
+    gap: 5rem;
+}
+
+.mainInfos > img {
+    width: 55rem;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.texts {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.texts > .movieTitle {
+    font-size: 3.5rem;
+}
+
+.laterButton {
+    all: unset;
+    cursor: pointer;
+}
+
+.laterButton > img {
+    width: 3.5rem;
+}
+
+.durationAndDate {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.5rem;
+}
+
+.avg {
+    font-size: 1.8rem;
+}
+
+.like {
+    font-size: 1.6rem;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+}
+
+.scoreInput,
+.commentInput {
+    position: relative;
+    height: 4rem;
+    line-height: 4rem;
+}
+
+input {
+    position: absolute;
+    outline: none;
+    font-size: 1.4rem;
+    padding: 0 3rem;
+    line-height: 4rem;
+    border-radius: 1rem;
+    border: 1px solid var(--input-border-lighter);
+    background: transparent;
+    transition: 0.1s ease;
+    background-color: var(--black);
+    z-index: 1;
+    width: 100%;
+}
+
+.labelline {
+    position: absolute;
+    top: .1rem;
+    left: 2rem;
+    font-size: 1.4rem;
+    color: var(--input-border-lighter);
+    background-color: var(--black);
+    transition: 0.2s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+input:focus,
+input:valid {
+    color: var(--white);
+    border: 2px solid var(--red);
+}
+
+.scoreInput > input:focus + .labelline,
+.scoreInput > input:valid + .labelline,
+.commentInput > input:focus + .labelline,
+.commentInput > input:valid + .labelline {
+    color: var(--red);
+    height: 3rem;
+    line-height: 3rem;
+    padding: 0 1.2rem;
+    transform: translate(-1.5rem, -1.4rem) scale(0.88);
+    z-index: 9;
+}
+
+.submitButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3.5rem;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--red);
+    color: var(--white);
+    font-weight: 600;
+    width: 100%;
+}
+
+.submitButton:hover {
+    background-color: var(--red-lighter);
+    cursor: pointer;
+}
+
+.surplus {
+    color: var(--white);
+    display: flex;
+    gap: 3rem;
+}
+
+.desc {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.desc > h3 {
+    font-size: 2rem;
+}
+
+.description {
+    border: 2px solid var(--input-border);
+    border-radius: 10px;
+    width: 45rem;
+    height: 18rem;
+    padding: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.ratings {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ratings > h3 {
+    font-size: 2rem;
+}
+
+.rating {
+    border: 2px solid var(--input-border);
+    border-radius: 10px;
+    width: 55rem;
+    height: 18rem;
+    padding: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.userName {
+    font-size: 1.6rem;
+}
+
+.noRate {
+    font-size: 1.4rem;
+}

@@ -80,6 +80,15 @@ async function insertMovieGenre(movieId, genderId) {
     await conn.query(sql, [movieId, genderId]);
 }
 
+async function insertMovieRating(userId, movieId, score, comment) {
+    const conn = await connDB();
+    const sql = `
+        INSERT INTO ratings (id_user, id_movie, ratingscore, ratingcomment)
+        VALUES (?, ?, ?, ?);
+    `;
+    await conn.query(sql, [userId, movieId, score, comment]);
+}
+
 // ===========================
 // DELETE - QUERIES 
 // ===========================
@@ -479,6 +488,44 @@ async function getGenresWithMovies() {
     return genresWithMovies;
 }
 
+async function getRatingsByMovieId(movieId) {
+    const conn = await connDB();
+    const sql = `
+        SELECT 
+            r.ratingscore,
+            r.ratingcomment,
+            u.username
+        FROM ratings r
+        INNER JOIN users u ON r.id_user = u.userid
+        WHERE r.id_movie = ?
+    `;
+    const [ratings] = await conn.query(sql, [movieId]);
+
+    return ratings;
+}
+
+async function getAverageRatingByMovieId(movieId) {
+    const conn = await connDB();
+    const sql = `
+        SELECT 
+            ROUND(AVG(ratingscore), 1) AS averageRating
+        FROM ratings
+        WHERE id_movie = ?
+    `;
+    const [result] = await conn.query(sql, [movieId]);
+
+    // Se não houver nenhuma avaliação, retorna 0
+    return result[0].averageRating || 0;
+}
+
+async function checkIfUserHasRated(userId, movieId) {
+    const conn = await connDB();
+    const sql = "SELECT COUNT(*) AS count FROM ratings WHERE id_user = ? AND id_movie = ?";
+    const [rows] = await conn.query(sql, [userId, movieId]);
+
+    return rows[0].count > 0 || false;
+}
+
 module.exports = {
     insertUserInformations,
     insertProfiles,
@@ -486,6 +533,7 @@ module.exports = {
     insertUserByAdminPage,
     insertNewMovie,
     insertMovieGenre,
+    insertMovieRating,
     deleteGender,
     deleteMovie,
     deleteUser,
@@ -512,5 +560,8 @@ module.exports = {
     searchProfileInfoById,
     getMoviesByGenre,
     getWatchLaterMoviesByUser,
-    getGenresWithMovies
+    getGenresWithMovies,
+    getRatingsByMovieId,
+    getAverageRatingByMovieId,
+    checkIfUserHasRated
 }

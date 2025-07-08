@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Detalhes</title>
+        <link rel="stylesheet" href="/stylesheets/moviedetails.css" />
+    </head>
+    <body>
+        <div class="app">
+            <div class="header">
+                <img src="/images/logo.png" alt="logo">
+                <h1>MovieMania</h1>
+            </div>
+
+            <div class="movieInfos">
+                <div class="mainInfos">
+                    <img src="<%= movie.movieimage %>" alt="<%= movie.movietitle %>">
+
+                    <div class="texts">
+                        <h2 class="movieTitle"><%= movie.movietitle %></h2>
+
+                        <button class="laterButton" title="Assistir mais tarde">
+                            <img src="/images/clock.png" alt="">
+                        </button>
+
+                        <div class="durationAndDate">
+                            <p>Duração: <strong><%= movieDuration %></strong></p>
+    
+                            <p>Data de Lançamento: <strong><%= movie.dtrelease.toLocaleDateString('pt-BR') %></strong></p>
+                        </div>
+
+                        <p class="avg">Média de avaliações: <strong><%= averageRating %></strong> / 5</p>
+
+                        <h4 class="like">Gostou do filme?</h4>
+
+                        <form action="/moviedetails/<%= movie.movieid %>" method="POST">
+                            <div class="inputContainer">
+                                <div class="scoreInput">
+                                    <input type="text" min="0" max="5" required id="score" name="score" autocomplete="off">
+                                    <label class="labelline" for="score">Adicione uma nota (de 0 a 5)</label>
+                                </div>
+        
+                                <div class="commentInput">
+                                    <input type="text" required id="comment" name="comment" autocomplete="off">
+                                    <label class="labelline" for="comment">Adicione um comentário</label>
+                                </div>
+                            </div>
+
+                            <button class="submitButton" type="submit">Enviar avaliação</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="surplus">
+                    <div class="desc">
+                        <h3>Descrição do filme</h3>
+                        <div class="description">
+                            <p><%= movie.moviedesc %></p>
+                        </div>
+                    </div>
+
+                    <div class="ratings">
+                        <h3>Avaliações:</h3>
+                        <% if (ratings.length > 0) { %>
+                            <% ratings.forEach(rating => { %>
+                                <div class="rating">
+                                    <strong class="userName"><%= rating.username %>:</strong>
+                                    <p><strong>Nota:</strong> <%= rating.ratingscore %></p>
+                                    <p><strong>Comentário:</strong> <%= rating.ratingcomment %></p>
+
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <p class="noRate">Este filme ainda não possui avaliações.</p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/scripts/phoneregex.js"></script>
+    </body>
+</html>

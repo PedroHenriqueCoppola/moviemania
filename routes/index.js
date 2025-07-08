@@ -112,15 +112,26 @@ router.get('/home/:profileid', verifyLogin, async function(req, res, next) {
     }
 });
 
-/* GET moviedetails */
 router.get('/moviedetails/:movieid', verifyLogin, async function(req, res, next) {
     const movieId = req.params.movieid;
 
     try {
         const movie = await global.banco.searchMovieById(movieId);
+        const ratings = await global.banco.getRatingsByMovieId(movieId);
+        const averageRating = await global.banco.getAverageRatingByMovieId(movieId);
+
+        const hours = String(Math.floor(movie.movietime / 3600)).padStart(2, '0');
+        const minutes = String(Math.floor((movie.movietime % 3600) / 60)).padStart(2, '0');
+        const seconds = String(movie.movietime % 60).padStart(2, '0');
+        const duration = `${hours}:${minutes}:${seconds}`;
 
         if (movie) {
-            res.render('moviedetails', { movie: movie });
+            res.render('moviedetails', {
+                movie: movie,
+                ratings: ratings,
+                movieDuration: duration,
+                averageRating: averageRating
+            });
         } else {
             res.status(404).send('Filme não encontrado.');
         }
@@ -208,6 +219,32 @@ router.post('/userslogon/:id', async function(req, res, next){
             console.error(err);
             res.status(500).send('Erro interno ao inserir perfis.');
         }
+    }
+});
+
+router.post('/moviedetails/:movieid', verifyLogin, async function(req, res) {
+    const movieId = req.params.movieid;
+    const userId = global.loggedInUserId;
+
+    const { score, comment } = req.body;
+
+    try {
+        const hasRated = await global.banco.checkIfUserHasRated(userId, movieId);
+
+        if (hasRated) {
+            return res.redirect('/moviedetails/' + movieId);
+        }
+
+        if (score < 0 || score > 5) {
+            return res.redirect('/moviedetails/' + movieId);
+        }
+
+        if (score != "" && comment != "") {
+            await global.banco.insertMovieRating(userId, movieId, score, comment);
+        }
+        res.redirect('/moviedetails/' + movieId);
+    } catch (err) {
+        res.status(500).send("Erro ao salvar a avaliação.");
     }
 });
 
