@@ -62,14 +62,15 @@ Passo 2: Aplicação
     - npm install
 - Após a instalação, inicie o servidor:
     - npm run start
-Acesse a aplicação no navegador em: http://localhost:3000 (ou a porta que você configurou).
+- Acesse a aplicação no navegador em: http://localhost:3000 (ou a porta que você configurou).
 
-2. Credenciais de Acesso para Teste
+
+Credenciais de Acesso para Teste
 Para avaliar os diferentes níveis de permissão, utilize os seguintes usuários de teste (presentes no arquivo .sql):
-Administrador: admin // 123
-Usuário: teste@gmail.com // 123
+- Administrador: admin // 123
+- Usuário: teste@gmail.com // 123
 
-3. Testes
+Passo 3: Testes
 
 A. Testes como Usuário Comum (Login: teste@gmail.com)
 - Autenticação: Tente fazer login com as credenciais corretas e incorretas.
